@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gasCompanyName"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TakeOrder">
+
+    <TextView
+        android:id="@+id/changable_companyName"
+        android:layout_width="344dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/border"
+        android:gravity="center"
+        android:text="景美瓦斯行"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/companyName"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:text="瓦斯行"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="397dp"
+        android:layout_marginBottom="2dp"
+        android:paddingTop="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmOrderButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changable_companyName">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="397dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/takeOrder1"
+                android:layout_width="344.9dp"
+                android:layout_height="73.1dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#D6D6D6"
+                android:text="秀明路訂單    複合5Kg   一桶"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/takeOrder2"
+                android:layout_width="344.9dp"
+                android:layout_height="73.1dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#D6D6D6"
+                android:text="中正路訂單    複合5Kg   五桶"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/takeOrder3"
+                android:layout_width="344.9dp"
+                android:layout_height="73.1dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#D6D6D6"
+                android:text="指南路訂單    複合5Kg   一桶"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/confirmOrderButton"
+        android:layout_width="344.9dp"
+        android:layout_height="73.1dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="24dp"
+        android:text="確認搶單"
+        android:textSize="17sp"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrderInfo">
+
+    <GridLayout
+        android:id="@+id/TableLayout1"
+        android:rowCount="5"
+        android:columnCount="2"
+        android:layout_width="360.6dp"
+        android:layout_height="260.3dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:backgroundTint="#ffececec"
+        app:backgroundTint="#ffffffff"
+        app:layout_constraintBottom_toTopOf="@+id/confirmOrder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/customer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/CustomerName"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changable_customer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/contactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6.0dp"
+            android:text="@string/contactNo"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changable_contactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/deliveryAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6.0dp"
+            android:text="@string/deliveryAddress"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changable_deliveryAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/gasID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6.0dp"
+            android:text="原瓦斯桶ID:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/changable_gasID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:layout_marginTop="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/gasQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:text="@string/gasQuantity"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changable_gasQTY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="25.0dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/confirmOrder"
+        android:layout_width="186.3dp"
+        android:layout_height="70.9dp"
+        android:backgroundTint="#3272D7"
+        android:backgroundTintMode="src_over"
+        android:shadowColor="#ff2c2c2c"
+        android:text="@string/confirmString"
+        android:textColor="#ffffff"
+        android:textSize="20.0sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TableLayout1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

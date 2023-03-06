@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrderList">
+
+    <Button
+        android:id="@+id/order_finished"
+        android:layout_width="0dp"
+        android:layout_height="56.9dp"
+        android:backgroundTint="#9A9A9A"
+        android:clickable="false"
+        android:foregroundGravity="left"
+        android:gravity="center"
+        android:text="@string/finished"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/order_unfinished"
+        app:layout_constraintEnd_toStartOf="@+id/order_unfinished"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/order_unfinished"
+        android:layout_width="0dp"
+        android:layout_height="56.9dp"
+        android:backgroundTint="#ebebeb"
+        android:foregroundGravity="right"
+        android:gravity="center"
+        android:text="@string/unfinished"
+        android:textColor="#6b6a6a"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/order_finished"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:id="@+id/order_button_list_finished"
+        android:layout_width="match_parent"
+        android:layout_height="544dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_finished"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

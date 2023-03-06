@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:enableOnBackInvokedCallback="true"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/master_string"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/Theme.SmartGasMasterApp"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".TakeOrder"
+            android:exported="false"
+            android:label="@string/takeOrderTitle" />
+        <activity
+            android:name=".OrderInfo"
+            android:exported="false"
+            android:label="@string/orderInformation"
+            android:parentActivityName=".OrderList" />
+        <activity
+            android:name=".ForgetPassword2"
+            android:exported="false"
+            android:label="@string/forgetPassword"
+            android:parentActivityName=".ForgetPassword1" />
+        <activity
+            android:name=".ForgetPassword1"
+            android:exported="false"
+            android:label="@string/forgetPassword"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ScanUserID"
+            android:exported="false"
+            android:label="@string/scanIDString" />
+        <activity
+            android:name=".ScanReceiptQRCode"
+            android:exported="false"
+            android:label="@string/scanReceiptString" />
+        <activity
+            android:name=".ScanNewQRCode"
+            android:exported="false"
+            android:label="@string/scanNewString"
+            android:parentActivityName=".ScanOriginalQRCode" />
+        <activity
+            android:name=".ScanOriginalQRCode"
+            android:exported="false"
+            android:label="@string/scanOriginalString"
+            android:parentActivityName=".Homepage" />
+        <activity
+            android:name=".EditPersonalInfo"
+            android:exported="false"
+            android:label="@string/edit_personal"
+            android:parentActivityName=".Homepage" />
+        <activity
+            android:name=".OrderListUnfinished"
+            android:exported="false"
+            android:label="@string/today_order"
+            android:parentActivityName=".Homepage" />
+        <activity
+            android:name=".OrderList"
+            android:exported="false"
+            android:label="@string/today_order"
+            android:parentActivityName=".Homepage" />
+        <activity
+            android:name=".Homepage"
+            android:exported="false" />
+        <activity
+            android:name=".Register"
+            android:exported="false"
+            android:label="@string/register_string"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/login_string"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
