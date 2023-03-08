@@ -1,3 +1,4 @@
+
 package com.example.smartgasmasterapp;
 
 import androidx.annotation.NonNull;
@@ -76,7 +77,14 @@ public class ScanNewQRCode extends AppCompatActivity {
                 try {
                     New_Gas_Id_Array.add(input_newGasId.getText().toString());
                     saveNewGas();
-                    saveGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
+                    try {
+                        saveGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
+                    }
+                    catch (Exception e){
+                        Log.i("Exchange Gas",e.toString());
+                    }
+                    Intent intent = new Intent(ScanNewQRCode.this, Homepage.class);
+                    startActivity(intent);
                 }
                 catch (Exception e){
                     Log.i("Save New Gas",e.toString());
@@ -204,8 +212,6 @@ public class ScanNewQRCode extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response.equals("success")) {
                             Log.i("saveNewGasId", "Successfully store New GasId.");
-                            Intent intent = new Intent(ScanNewQRCode.this, Homepage.class);
-                            startActivity(intent);
                             next.setClickable(false);
                         } else if (response.equals("failure")) {
                             Log.i("saveNewGasId", "Something went wrong!");
@@ -276,20 +282,18 @@ public class ScanNewQRCode extends AppCompatActivity {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> data = new HashMap<>();
                         data.put("id",order_Id);
-                        if(OriginalID.size()>0){
+                        if(OriginalID.size()>0&&y<OriginalID.size()){
                             if(OriginalID.get(y)!=null&&OriginalID.get(y)!=""){
                                 data.put("OriginalID", OriginalID.get(y));
                             }
                             else{
                                 data.put("OriginalID", String.valueOf(0));
                             }
-
                         }
                         else{
                             data.put("OriginalID", String.valueOf(0));
                         }
                         data.put("NewID", NewID.get(y));
-                        data.put("quantity", String.valueOf(orderInfo.gas_quantity));
                         return data;
                     }
                 };
@@ -302,4 +306,6 @@ public class ScanNewQRCode extends AppCompatActivity {
         }
     }
 
+
 }
+

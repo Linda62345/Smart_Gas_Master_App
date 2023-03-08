@@ -7,7 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class OrderInfo extends AppCompatActivity {
@@ -33,7 +40,9 @@ public class OrderInfo extends AppCompatActivity {
     public static int gas_quantity;
     public String Customer_Id;
     String line,result = "";
-    String[] data,Orig_gas_Id;
+    String[] quantity,type,weight,Orig_gas_Id;
+    ArrayList<orderDetail> orderdetail;
+    public ListView Lorderdetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +82,17 @@ public class OrderInfo extends AppCompatActivity {
         } catch (Exception e) {
             Log.i("Info Exception",e.toString());
         }
-        Original_Gas();
+        //error
+        //Original_Gas();
+        Lorderdetail = (ListView) findViewById(R.id.list_item);
 
+        try {
+            Orderdetail();
+        } catch (Exception e) {
+            Log.i("Orderdetail Exception",e.toString());
+        }
+        orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);
+        Lorderdetail.setAdapter(adapter);
     }
     public void showData() throws MalformedURLException {
         try{
@@ -129,10 +147,6 @@ public class OrderInfo extends AppCompatActivity {
             Log.i("Order Info Exception", e.toString());
         }
     }
-    /*public String getOriginal_Order_Id(){
-        String O_gas_Id = Original_Gas_Id;
-        return O_gas_Id;
-    }*/
 
     public void Original_Gas(){
         try{
@@ -178,6 +192,59 @@ public class OrderInfo extends AppCompatActivity {
         } catch (Exception e) {
             Log.i("OriginalGas Exception", e.toString());
         }
+    }
+    public void Orderdetail() throws MalformedURLException {
+        try{
+            String URL = "http://10.0.2.2/SQL_Connect/Worker_OrderDetail.php";
+            URL url = new URL(URL);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(order_Id), "UTF-8");
+            bufferedWriter.write(post_data);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            outputStream.close();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+            String result = "";
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            Log.i("orderdetail", "["+result+"]");
+            try{
+                JSONArray ja = new JSONArray(result);
+                JSONObject jo = null;
+                quantity = new String[ja.length()];
+                type = new String[ja.length()];
+                weight = new String[ja.length()];
+                orderdetail = new ArrayList<>();
+
+                for(int i = 0; i<ja.length();i++){
+                    jo = ja.getJSONObject(i);
+                    quantity[i] = jo.getString("Order_Quantity");
+                    type[i] = jo.getString("Order_type");
+                    weight[i] = jo.getString("Order_weight");
+                    orderDetail od = new orderDetail(quantity[i],type[i],weight[i]);
+                    orderdetail.add(od);
+                }
+            }catch(Exception e){
+                Log.i("Orderdetail JSON Exception",e.toString());
+            }
+        }catch (Exception e){
+            Log.i("OrderDetail",e.toString());
+        }
+
+
+
     }
 
 }

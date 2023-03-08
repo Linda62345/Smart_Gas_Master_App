@@ -8,18 +8,19 @@
 
     <GridLayout
         android:id="@+id/TableLayout1"
-        android:rowCount="5"
-        android:columnCount="2"
         android:layout_width="360.6dp"
         android:layout_height="260.3dp"
         android:layout_gravity="center"
         android:background="@android:color/white"
         android:backgroundTint="#ffececec"
+        android:columnCount="2"
+        android:rowCount="5"
         app:backgroundTint="#ffffffff"
         app:layout_constraintBottom_toTopOf="@+id/confirmOrder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.192">
 
         <TextView
             android:id="@+id/customer_name"
@@ -103,11 +104,12 @@
             android:layout_gravity="start|center"
             android:layout_marginStart="25.0dp"
             android:layout_marginTop="6.0dp"
-            android:text="原瓦斯桶ID:"
+            android:text="訂購時間 : "
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ff757575"
             android:textSize="24.0sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/changable_gasID"
             android:layout_width="wrap_content"
@@ -144,6 +146,17 @@
             android:textStyle="bold" />
     </GridLayout>
 
+    <ListView
+        android:id="@+id/list_item"
+        android:layout_width="360.6dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmOrder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TableLayout1"
+        app:layout_constraintVertical_bias="0.189"
+        tools:ignore="MissingConstraints" />
+
     <Button
         android:id="@+id/confirmOrder"
         android:layout_width="186.3dp"
@@ -157,8 +170,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TableLayout1" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

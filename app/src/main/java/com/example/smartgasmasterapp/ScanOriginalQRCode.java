@@ -54,7 +54,9 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next_gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gas_Id_Array.add(input_Id.getText().toString());
+                if(input_Id.getText().toString()!=null&&input_Id.getText().toString()!=""){
+                    Gas_Id_Array.add(input_Id.getText().toString());
+                }
                 input_Id.setText("");
             }
         });
@@ -64,7 +66,9 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gas_Id_Array.add(input_Id.getText().toString());
+                if(input_Id.getText().toString()!=null&&input_Id.getText().toString()!=""){
+                    Gas_Id_Array.add(input_Id.getText().toString());
+                }
                 sure();
             }
         });
@@ -104,13 +108,6 @@ public class ScanOriginalQRCode extends AppCompatActivity {
     public void sure(){
         Intent intent = new Intent(ScanOriginalQRCode.this, ScanNewQRCode.class);
         startActivity(intent);
-        /*if(input_Id.getText().toString().equals(Original_Order_Id)){
-            Intent intent = new Intent(ScanOriginalQRCode.this, ScanNewQRCode.class);
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(this,"原桶ID不符合", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
 }
