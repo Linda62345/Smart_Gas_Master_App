@@ -35,7 +35,7 @@ public class OrderInfo extends AppCompatActivity {
 
     private Button startScan;
     private String order_Id;
-    private TextView name,phone,address,gas_Id,gas_Quan;
+    private TextView name,phone,address,ordertime,gas_Quan;
     public static String Original_Gas_Id;
     public static int gas_quantity;
     public String Customer_Id;
@@ -74,7 +74,7 @@ public class OrderInfo extends AppCompatActivity {
         name = findViewById(R.id.changable_customer_name);
         phone = findViewById(R.id.changable_contactNumber);
         address = findViewById(R.id.changable_deliveryAddress);
-        gas_Id = findViewById(R.id.changable_gasID);
+        ordertime = findViewById(R.id.ordertime);
         gas_Quan = findViewById(R.id.changable_gasQTY);
 
         try {
@@ -88,11 +88,15 @@ public class OrderInfo extends AppCompatActivity {
 
         try {
             Orderdetail();
+
         } catch (Exception e) {
             Log.i("Orderdetail Exception",e.toString());
         }
-        orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);
-        Lorderdetail.setAdapter(adapter);
+        /*orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);
+        if(orderdetail.size()>0){
+            Log.i("order detail", String.valueOf(orderdetail.size()));
+            Lorderdetail.setAdapter(adapter);
+        }*/
     }
     public void showData() throws MalformedURLException {
         try{
@@ -143,6 +147,8 @@ public class OrderInfo extends AppCompatActivity {
             Order_GasQuan = responseJSON.getString("Gas_Quantity");
             gas_Quan.setText(Order_GasQuan);
             gas_quantity = Integer.parseInt(Order_GasQuan);
+            String OT = responseJSON.getString("Order_Time");
+            ordertime.setText(OT);
         } catch (Exception e) {
             Log.i("Order Info Exception", e.toString());
         }
@@ -235,6 +241,11 @@ public class OrderInfo extends AppCompatActivity {
                     weight[i] = jo.getString("Order_weight");
                     orderDetail od = new orderDetail(quantity[i],type[i],weight[i]);
                     orderdetail.add(od);
+                }
+                orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);
+                if(orderdetail.size()>0){
+                    Log.i("order detail", String.valueOf(orderdetail.size()));
+                    Lorderdetail.setAdapter(adapter);
                 }
             }catch(Exception e){
                 Log.i("Orderdetail JSON Exception",e.toString());

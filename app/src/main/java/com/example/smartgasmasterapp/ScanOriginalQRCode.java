@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,17 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -46,9 +59,20 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
 
         gas_Id = findViewById(R.id.changableOriginalID);
-        //gas_Id.setText(Original_Order_Id);
 
         input_Id = findViewById(R.id.mannuallyEnterGasCode);
+        input_Id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                gas_Id.setText(input_Id.getText().toString());
+            }
+        });
 
         //for(int i=0;i<gas_quantity;i++){
         next_gas.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +130,43 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         super.onPause();
     }
     public void sure(){
-        Intent intent = new Intent(ScanOriginalQRCode.this, ScanNewQRCode.class);
-        startActivity(intent);
-    }
+            try{
+                String Showurl = "http://10.0.2.2/SQL_Connect/Show_Gas_Info.php";
+                URL url = new URL(Showurl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String gas_Id = input_Id.getText().toString().trim();
+                String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(gas_Id), "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                Log.i("Gas_ID", "["+result+"]");
+                JSONObject responseJSON = new JSONObject(result);
+                if(responseJSON.getString("response").equals("failure")){
+                    Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Log.i("Gas_Data Exception", e.toString());
+            }
+            Intent intent = new Intent(ScanOriginalQRCode.this, ScanNewQRCode.class);
+            startActivity(intent);
+        }
+
 
 }

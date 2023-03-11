@@ -116,20 +116,7 @@ public class ScanNewQRCode extends AppCompatActivity {
         order_Id = orderList.static_order_id;
 
         input_newGasId = findViewById(R.id.mannuallyEnterNewGasCode);
-        input_newGasId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                //在這裡把gas detail的東西弄出來
-                GasData();
-            }
-        });
+        input_newGasId.addTextChangedListener(textWatcher);
 
         GAS_ID = findViewById(R.id.changeableNewID);
         Initial_Volume = findViewById(R.id.changeableNewVolume);
@@ -140,11 +127,28 @@ public class ScanNewQRCode extends AppCompatActivity {
         next_gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                New_Gas_Id_Array.add(input_newGasId.getText().toString());
+                input_newGasId.removeTextChangedListener(textWatcher);
                 input_newGasId.setText("");
+                input_newGasId.addTextChangedListener(textWatcher);
             }
         });
     }
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+        @Override
+        public void afterTextChanged(Editable s) {
+            //在這裡把gas detail的東西弄出來
+            if (input_newGasId.hasFocus()) {
+                // is only executed if the EditText was directly changed by the user
+                GasData();
+            }
+        }};
 
     @Override
     protected void onResume() {
@@ -185,17 +189,23 @@ public class ScanNewQRCode extends AppCompatActivity {
             bufferedReader.close();
             inputStream.close();
             httpURLConnection.disconnect();
-            Log.i("result", "["+result+"]");
+            Log.i("Gas_ID", "["+result+"]");
             JSONObject responseJSON = new JSONObject(result);
-            String S_Gas_ID, S_initial_volume, S_Gas_Type;
-            S_Gas_ID = responseJSON.getString("GAS_Id");
-            GAS_ID.setText(S_Gas_ID);
-            S_initial_volume = responseJSON.getString("GAS_Volume");
-            Initial_Volume.setText(S_initial_volume);
-            S_Gas_Type = responseJSON.getString("GAS_Type");
-            GAS_Type.setText(S_Gas_Type);
+            if(responseJSON.getString("response").equals("failure")){
+                Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                String S_Gas_ID, S_initial_volume, S_Gas_Type;
+                S_Gas_ID = responseJSON.getString("GAS_Id");
+                GAS_ID.setText(S_Gas_ID);
+                S_initial_volume = responseJSON.getString("GAS_Volume");
+                Initial_Volume.setText(S_initial_volume);
+                S_Gas_Type = responseJSON.getString("GAS_Type");
+                GAS_Type.setText(S_Gas_Type);
+                New_Gas_Id_Array.add(input_newGasId.getText().toString());
+            }
         } catch (Exception e) {
-            Log.i("Gas_Info Exception", e.toString());
+            Log.i("Gas_Data Exception", e.toString());
         }
     }
 

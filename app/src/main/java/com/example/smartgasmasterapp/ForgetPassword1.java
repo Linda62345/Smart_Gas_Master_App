@@ -83,4 +83,7 @@ public class ForgetPassword1 extends AppCompatActivity {
         }
 
     }
+    public void OTP(){
+
+    }
 }

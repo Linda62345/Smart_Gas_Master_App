@@ -37,9 +37,11 @@ public class orderDetailAdapterList extends ArrayAdapter<orderDetail> {
         TextView tvType = (TextView) convertView.findViewById(R.id.type);
         TextView tvWeight = (TextView) convertView.findViewById(R.id.weight);
 
-        tvQuantity.setText("瓦斯桶數量: "+quantity);
-        tvType.setText("瓦斯桶類別: "+type);
-        tvWeight.setText("瓦斯桶重量: "+weight);
+        if(tvQuantity!=null&&tvType!=null&&tvWeight!=null){
+            tvQuantity.setText("瓦斯桶數量: "+quantity);
+            tvType.setText("瓦斯桶類別: "+type);
+            tvWeight.setText("瓦斯桶重量: "+weight);
+        }
 
         return  convertView;
     }
