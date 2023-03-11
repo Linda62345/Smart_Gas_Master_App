@@ -45,7 +45,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
-                    android:text="王師傅"
                     android:textColor="#ff000000"
                     android:textSize="38sp"
                     android:textStyle="bold" />
@@ -57,6 +56,15 @@
                     android:layout_marginTop="135dp"
                     android:backgroundTint="#ffffff"
                     android:text="@string/edit_personal"
+                    android:textColor="#ff3272d7"
+                    app:cornerRadius="14dp" />
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="190dp"
+                    android:backgroundTint="#ffffff"
+                    android:text="登出"
                     android:textColor="#ff3272d7"
                     app:cornerRadius="14dp" />
 
