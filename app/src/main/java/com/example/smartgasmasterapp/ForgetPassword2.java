@@ -30,8 +30,7 @@ public class ForgetPassword2 extends AppCompatActivity {
     public ForgetPassword1 forgetPassword1;
     public EditText NewPassword,reNewPassword;
     private TextView tvStatus;
-    public String newpassword, renewpassword;
-    public int phone;
+    public String newpassword, renewpassword,email;
     private String URL = "http://10.0.2.2/SQL_Connect/reSetPassword.php";
 
     @Override
@@ -53,9 +52,9 @@ public class ForgetPassword2 extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getIntent().getExtras();
-        phone = bundle.getInt("phone");
+        email = bundle.getString("email");
         //從forgetpassword1拿到phone value的值
-        Log.i("phone value", String.valueOf(phone));
+        Log.i("phone value", email);
         NewPassword = findViewById(R.id.enterNewPass);
         reNewPassword = findViewById(R.id.enterConfirmNewPass);
         tvStatus = findViewById(R.id.tvStatus);
@@ -95,7 +94,7 @@ public class ForgetPassword2 extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> data = new HashMap<>();
-                    data.put("phone", String.valueOf(phone));
+                    data.put("email", email);
                     data.put("NewPassword", newpassword);
                     return data;
                 }

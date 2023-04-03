@@ -92,11 +92,6 @@ public class OrderInfo extends AppCompatActivity {
         } catch (Exception e) {
             Log.i("Orderdetail Exception",e.toString());
         }
-        /*orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);
-        if(orderdetail.size()>0){
-            Log.i("order detail", String.valueOf(orderdetail.size()));
-            Lorderdetail.setAdapter(adapter);
-        }*/
     }
     public void showData() throws MalformedURLException {
         try{

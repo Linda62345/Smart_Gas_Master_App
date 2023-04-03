@@ -47,7 +47,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     ArrayAdapter<String> cityAdapter;
     ArrayList<String> companyList = new ArrayList<>();
     ArrayAdapter<String> companyAdapter;
-    private String URL = "http://10.0.2.2/SQL_Connect/register.php";
+    private String URL = "http://10.0.2.2:80/SQL_Connect/register.php";
 
 
 
@@ -77,7 +77,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
         requestQueue = Volley.newRequestQueue(this);
         etCompanyName = findViewById(R.id.company);
-        String URL1 = "http://10.0.2.2/SQL_Connect/company.php";
+        String URL1 = "http://10.0.2.2:80/SQL_Connect/company.php";
         JsonObjectRequest jsonObjectRequest;
 
         {
@@ -109,7 +109,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             requestQueue.add(jsonObjectRequest);
         }
 
-        String URL2 = "http://10.0.2.2/SQL_Connect/country.php";
+        String URL2 = "http://10.0.2.2:80/SQL_Connect/country.php";
         JsonObjectRequest jsonObjectRequest1;
 
         {
@@ -149,7 +149,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         if(adapterView.getId() == R.id.spinner_1){
             cityList.clear();
             String selectedCountry = adapterView.getSelectedItem().toString();
-            String url = "http://10.0.2.2/SQL_Connect/city.php?country_name="+selectedCountry;
+            String url = "http://10.0.2.2:80/SQL_Connect/city.php?country_name="+selectedCountry;
             requestQueue = Volley.newRequestQueue(this);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                     url,null , new Response.Listener<JSONObject>() {

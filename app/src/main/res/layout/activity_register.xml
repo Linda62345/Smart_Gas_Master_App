@@ -149,7 +149,7 @@
         android:id="@+id/register_housephone_input"
         android:layout_marginStart="47.4dp"
         android:layout_marginTop="350dp"
-        android:autofillHints="@string/house_phone"
+        android:autofillHints="室內電話號碼"
         android:hint="@string/enter_housePhone"/>
 
     <TextView

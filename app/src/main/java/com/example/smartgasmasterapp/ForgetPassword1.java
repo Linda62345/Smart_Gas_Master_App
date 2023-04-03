@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,7 +27,7 @@ import java.util.Objects;
 public class ForgetPassword1 extends AppCompatActivity {
 
     private Button newPass;
-    public EditText phone;
+    public EditText email;
     private String URL = "http://10.0.2.2/SQL_Connect/checkAccount.php";
 
     @Override
@@ -34,24 +35,29 @@ public class ForgetPassword1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password1);
 
-        phone = findViewById(R.id.enterPhone_ForgetPass);
+        email = findViewById(R.id.enterPhone_ForgetPass);
         newPass = findViewById(R.id.setNewPassButton);
 
         newPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAccount();
+                try{
+                    checkAccount();
+                }
+                catch (Exception e){
+                    Log.i("forgetpassword",e.toString());
+                }
             }
         });
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //顯示不出來
-        Log.d("ForgetPassword1", phone.getText().toString());
+        Log.d("ForgetPassword1", email.getText().toString());
     }
     private void checkAccount(){
-        String phoneNum = phone.getText().toString().trim();
-        if(phoneNum==""){
-            Toast.makeText(this, "請輸入手機號碼", Toast.LENGTH_SHORT).show();
+        String String_email = email.getText().toString().trim();
+        if(String_email==""){
+            Toast.makeText(this, "請輸入電子郵件", Toast.LENGTH_SHORT).show();
         }
         else{
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -60,30 +66,34 @@ public class ForgetPassword1 extends AppCompatActivity {
                     Log.d("res", response);
                     if (response.equals("success")) {
                         Intent intent = new Intent(ForgetPassword1.this, ForgetPassword2.class);
-                        intent.putExtra("phone", Integer.parseInt(phone.getText().toString()));
+                        intent.putExtra("email", email.getText().toString());
                         startActivity(intent);
-                    } else if (response.equals("failure")) {
-                        Toast.makeText(ForgetPassword1.this, "此手機尚未註冊", Toast.LENGTH_SHORT).show();
+                    } else if (response.contains("account failure")) {
+                        Toast.makeText(ForgetPassword1.this, "此電子郵件尚未註冊", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 public void onErrorResponse(VolleyError error) {
-                    phone.setText(error.toString().trim());
+                    email.setText(error.toString().trim());
                     Toast.makeText(ForgetPassword1.this, error.toString().trim(), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> data = new HashMap<>();
-                    data.put("phone", phoneNum); //php,本地端
+                    Log.i("email",String_email);
+                    data.put("email", String_email); //php,本地端
                     return data;
                 }
             };
+            //NetworkUtility.log Slow Requests: HTTP response for request=<[ ]
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
         }
-
-    }
-    public void OTP(){
 
     }
 }

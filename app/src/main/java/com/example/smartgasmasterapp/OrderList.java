@@ -67,6 +67,7 @@ public class OrderList extends AppCompatActivity {
         unfinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderlist.setAdapter(null);
                 //直接在這裡改orderList
                 getData("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
                 try {
@@ -82,6 +83,7 @@ public class OrderList extends AppCompatActivity {
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderlist.setAdapter(null);
                 //直接在這裡改orderList
                 getData("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
                 try {
