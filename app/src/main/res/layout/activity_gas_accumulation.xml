@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GasAccumulation">
+
+    <TextView
+        android:id="@+id/remaningGas"
+        android:layout_width="wrap_content"
+        android:layout_height="55.1dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="4dp"
+        android:text="殘氣結算"
+        android:textColor="@android:color/black"
+        android:textSize="40.0sp"
+        android:textStyle="bold"/>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <TextView
+            android:id="@+id/GasComp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="1dp"
+            android:text="瓦斯行 : "
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changeableGasComp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="9dp"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/GasCanID"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="1dp"
+            android:text="瓦斯桶 ID : "
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/changeableGasCanID"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="9dp"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
+    </GridLayout>
+
+    <EditText
+        android:id="@+id/enterGasAmount"
+        android:layout_width="277dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="#EDEDED"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="請輸入殘氣結算"
+        android:textAlignment="center"
+        android:textColor="#675E5E" />
+
+    <TextView
+        android:id="@+id/enterGasAmountTitle"
+        android:layout_width="250dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="-65dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="1dp"
+        android:text="輸入殘氣結算"
+        android:textColor="@android:color/black"
+        android:textSize="20.0sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/confirm_NewScan_button"
+        android:layout_width="277dp"
+        android:layout_height="70.9dp"
+        android:layout_marginTop="200dp"
+        android:backgroundTint="#ff5877e4"
+        android:layout_gravity="center"
+        android:outlineAmbientShadowColor="#ff080808"
+        android:text="@string/confirmString"
+        android:textColor="#ffffffff"
+        android:textSize="20.0sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

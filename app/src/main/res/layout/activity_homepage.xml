@@ -21,9 +21,9 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="155dp"
-                android:layout_height="153dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="204dp"
+                android:layout_height="231dp"
+                android:layout_marginTop="35dp"
                 android:src="@drawable/baseline_person_24" />
 
             <RelativeLayout
@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/greetings"
                     android:textColor="#ff000000"
                     android:textSize="20sp"
@@ -44,26 +44,28 @@
                     android:id="@+id/changeable_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="60dp"
                     android:textColor="#ff000000"
                     android:textSize="38sp"
                     android:textStyle="bold" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/edit_personal_info_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="135dp"
-                    android:backgroundTint="#ffffff"
+                    android:layout_marginTop="115dp"
+                    android:paddingHorizontal="20dp"
                     android:text="@string/edit_personal"
                     android:textColor="#ff3272d7"
-                    app:cornerRadius="14dp" />
-                <Button
+                    app:cornerRadius="5dp"
+                    android:background="@drawable/oval_button"/>
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="190dp"
-                    android:backgroundTint="#ffffff"
+                    android:layout_marginTop="170dp"
+                    android:paddingHorizontal="20dp"
+                    android:background="@drawable/oval_button"
                     android:text="登出"
                     android:textColor="#ff3272d7"
                     app:cornerRadius="14dp" />
@@ -75,7 +77,6 @@
         <Button
             android:layout_width="328.9dp"
             android:layout_height="142.0dp"
-            android:layout_marginTop="44.6dp"
             android:foregroundGravity="center"
             android:gravity="center"
             android:layout_marginStart="38.0dp"

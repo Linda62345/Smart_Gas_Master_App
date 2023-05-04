@@ -14,16 +14,20 @@
         android:required="false" />
 
     <application
-        android:enableOnBackInvokedCallback="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/master_string"
-        android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
         android:theme="@style/Theme.SmartGasMasterApp"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".GasAccumulation"
+            android:exported="false"
+            android:label="殘氣結算"/>
         <activity
             android:name=".TakeOrder"
             android:exported="false"
