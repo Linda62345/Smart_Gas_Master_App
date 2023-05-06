@@ -27,7 +27,9 @@
         <activity
             android:name=".GasAccumulation"
             android:exported="false"
-            android:label="殘氣結算"/>
+            android:label="殘氣結算"
+            android:parentActivityName=".ScanOriginalQRCode"
+            />
         <activity
             android:name=".TakeOrder"
             android:exported="false"
@@ -59,7 +61,7 @@
             android:name=".ScanNewQRCode"
             android:exported="false"
             android:label="@string/scanNewString"
-            android:parentActivityName=".ScanOriginalQRCode" />
+            android:parentActivityName=".GasAccumulation" />
         <activity
             android:name=".ScanOriginalQRCode"
             android:exported="false"
