@@ -59,7 +59,6 @@ public class ScanNewQRCode extends AppCompatActivity {
     private TextView GAS_ID, Initial_Volume, GAS_Type;
     public ArrayList<String> New_Gas_Id_Array;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

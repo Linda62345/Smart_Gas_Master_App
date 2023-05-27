@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Homepage">
+    tools:context=".Homepage"
+    android:background="@color/white">
 
     <LinearLayout
         android:orientation="vertical"
@@ -89,6 +90,7 @@
             />
 
 
+        <!--
         <Button
             android:layout_width="328.9dp"
             android:layout_height="142.5dp"
@@ -103,6 +105,7 @@
             android:id="@+id/open_scanner_button"
             android:layout_marginTop="14.3dp"
             />
+            -->
 
     </LinearLayout>
 

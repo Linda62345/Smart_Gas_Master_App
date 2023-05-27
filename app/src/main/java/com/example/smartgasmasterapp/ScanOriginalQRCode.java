@@ -164,7 +164,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
             } catch (Exception e) {
                 Log.i("Gas_Data Exception", e.toString());
             }
-            Intent intent = new Intent(ScanOriginalQRCode.this, GasAccumulation.class);
+            Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
             startActivity(intent);
         }
 

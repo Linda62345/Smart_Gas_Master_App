@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="33" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -24,12 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartGasMasterApp"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".GasAccumulation"
-            android:exported="false"
-            android:label="殘氣結算"
-            android:parentActivityName=".ScanOriginalQRCode"
-            />
         <activity
             android:name=".TakeOrder"
             android:exported="false"
@@ -61,7 +56,12 @@
             android:name=".ScanNewQRCode"
             android:exported="false"
             android:label="@string/scanNewString"
-            android:parentActivityName=".GasAccumulation" />
+            android:parentActivityName=".ScanOriginalQRCode" />
+        <activity
+            android:name=".Remain_Gas"
+            android:exported="false"
+            android:label="殘氣輸入" />
+
         <activity
             android:name=".ScanOriginalQRCode"
             android:exported="false"

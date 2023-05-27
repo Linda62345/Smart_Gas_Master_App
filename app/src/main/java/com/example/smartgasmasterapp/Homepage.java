@@ -28,7 +28,7 @@ public class Homepage extends AppCompatActivity {
 
     private Button editProfile;
     private Button orderList;
-    private Button scanOrder;
+    //private Button scanOrder;
     private String email;
     public int Worker_ID;
     public Button logout;
@@ -45,7 +45,7 @@ public class Homepage extends AppCompatActivity {
         name = findViewById(R.id.changeable_username);
         editProfile = findViewById(R.id.edit_personal_info_button);
         orderList = findViewById(R.id.orderList_page_button);
-        scanOrder = findViewById(R.id.open_scanner_button);
+        //scanOrder = findViewById(R.id.open_scanner_button);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,13 +72,13 @@ public class Homepage extends AppCompatActivity {
         });
 
 
-        scanOrder.setOnClickListener(new View.OnClickListener() {
+        /*scanOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Homepage.this, ScanReceiptQRCode.class);
                 startActivity(intent);
             }
-        });
+        });*/
         LoginActivity loginActivity = new LoginActivity();
         Worker_ID = loginActivity.getWorkerID();
         Thread thread = new Thread(new Runnable() {
