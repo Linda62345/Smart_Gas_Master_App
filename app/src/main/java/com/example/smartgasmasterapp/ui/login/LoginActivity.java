@@ -224,13 +224,13 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Log.d("res", response);
-                    if (response.equals("success")) {
+                    if (response.contains("success")) {
                         Intent intent = new Intent(LoginActivity.this, Homepage.class);
                         //要把email傳過去
                         intent.putExtra("email",email);
                         startActivity(intent);
                         finish();
-                    } else if (response.equals("failure")) {
+                    } else if (response.contains("failure")) {
                         Toast.makeText(LoginActivity.this, "Invalid Login Id/Password", Toast.LENGTH_SHORT).show();
                     }
                 }

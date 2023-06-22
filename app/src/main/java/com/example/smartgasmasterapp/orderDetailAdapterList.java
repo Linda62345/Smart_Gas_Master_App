@@ -38,9 +38,9 @@ public class orderDetailAdapterList extends ArrayAdapter<orderDetail> {
         TextView tvWeight = (TextView) convertView.findViewById(R.id.weight);
 
         if(tvQuantity!=null&&tvType!=null&&tvWeight!=null){
-            tvQuantity.setText("數量: "+quantity);
-            tvType.setText("類別: "+type);
-            tvWeight.setText("重量: "+weight);
+            tvQuantity.setText(quantity);
+            tvType.setText(type);
+            tvWeight.setText(weight);
         }
 
         return  convertView;
