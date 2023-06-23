@@ -60,7 +60,7 @@ public class OrderList extends AppCompatActivity {
         try {
             getOrderList("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
         } catch (Exception e) {
-            Log.i("OrderList create Exception",e.toString());
+            Log.i("OrderList cre Exception",e.toString());
         }
         setAdapter();
 
@@ -73,7 +73,7 @@ public class OrderList extends AppCompatActivity {
                 try {
                     getOrderList("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
                 } catch (Exception e) {
-                    Log.i("UnOrderList create Exception",e.toString());
+                    Log.i("UnOrderList cre Exception",e.toString());
                 }
                 setAdapter();
             }

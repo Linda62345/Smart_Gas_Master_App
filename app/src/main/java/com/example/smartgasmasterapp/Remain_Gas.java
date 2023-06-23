@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -37,11 +38,15 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 public class Remain_Gas extends AppCompatActivity {
-    public String order_Id,Customer_Id,Company_id;
+    public String order_Id,Customer_Id,Company_id,result;
     public Button Scan_New_Gas,next;
     public TextView CompanyName;
     public int volume,total_volume;
     public EditText RemainInput;
+    String[] data;
+    public static ArrayList<String> remainGas;
+    public static ArrayList<Integer> remainGasVolumnList;
+    public ListView listView;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remain_gas);
@@ -49,28 +54,34 @@ public class Remain_Gas extends AppCompatActivity {
 
         Scan_New_Gas = findViewById(R.id.ScanNewGas);
         CompanyName = findViewById(R.id.gasCompanyName);
-        next = findViewById(R.id.next);
-        RemainInput = findViewById(R.id.RemainGasInput);
+        //next = findViewById(R.id.next);
+        //RemainInput = findViewById(R.id.RemainGasInput);
 
         OrderList orderList = new OrderList();
         order_Id = orderList.static_order_id;
+        remainGas = new ArrayList<String>();
+        remainGasVolumnList = new ArrayList<Integer>();
+        listView = findViewById(R.id.Listview);
 
         Scan_New_Gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!RemainInput.getText().toString().trim().isEmpty()){
-                    volume = Integer.parseInt(RemainInput.getText().toString().trim());
-                    RemainInput.setText("");
+                if(remainGasVolumnList.size()>0){
+                    for(int i=0;i<remainGasVolumnList.size();i++){
+                        total_volume += remainGasVolumnList.get(i);
+                    }
                 }
-                total_volume += volume;
                 Log.i("volume", String.valueOf(total_volume));
                 SaveVolume();
             }
         });
-        total_volume = 0;
+        /*
+        if(!RemainInput.getText().toString().trim().isEmpty()){
+                    volume = Integer.parseInt(RemainInput.getText().toString().trim());
+                    RemainInput.setText("");
+                }
         if(!RemainInput.getText().toString().trim().isEmpty()){
             volume = Integer.parseInt(RemainInput.getText().toString().trim());
-
         }
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +93,49 @@ public class Remain_Gas extends AppCompatActivity {
                 total_volume += volume;
                 Log.i("volume", String.valueOf(total_volume));
             }
-        });
+        });*/
 
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try  {
-                    CompanyName();
+
+                    GetData("http://10.0.2.2/SQL_Connect/Show_Company_Name.php", order_Id);
+                    JSONObject responseJSON = new JSONObject(result);
+                    String Company_Name = responseJSON.getString("Company_Name");
+                    CompanyName.setText(Company_Name);
+                    Customer_Id = responseJSON.getString("Customer_Id");
+                    Log.i("Customer_Id",Customer_Id);
+                    Company_id = responseJSON.getString("COMPANY_Id");
+
+                    //獲取Sensor weight的重量
+                    result = "";
+                    GetData("http://10.0.2.2/SQL_Connect/GetRemainGas.php",Customer_Id);
+                    Log.i("remain gas result", result);
+                    if(result.contains("Warning")){
+                        Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        JSONArray ja = new JSONArray(result);
+                        JSONObject jo = null;
+
+                        for(int i = 0; i<ja.length();i++){
+                            jo = ja.getJSONObject(i);
+                            remainGasVolumnList.add(Integer.parseInt(jo.getString("SENSOR_Weight")));
+                            remainGas.add("感應器"+jo.getString("SENSOR_Id")+": "+jo.getString("SENSOR_Weight")+"公斤");
+                        }
+                        Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (remainGas.size() > 0) {
+                                    RemainGasAdapterList adapterList = new RemainGasAdapterList(getApplicationContext(), R.layout.adapter_remain_gas, remainGas);
+                                    listView.setAdapter(adapterList);
+                                }
+                            }
+                        });
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -98,24 +144,23 @@ public class Remain_Gas extends AppCompatActivity {
         thread.start();
 
     }
-    public void CompanyName(){
+    public void GetData(String geturl,String id){
         try{
-            String Showurl = "http://10.0.2.2/SQL_Connect/Show_Company_Name.php";
-            URL url = new URL(Showurl);
+            URL url = new URL(geturl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setDoInput(true);
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(order_Id, "UTF-8");
+            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
             bufferedWriter.write(post_data);
             bufferedWriter.flush();
             bufferedWriter.close();
             outputStream.close();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-            String result = "";
+            result = "";
             String line = "";
 
             while ((line = bufferedReader.readLine()) != null) {
@@ -125,12 +170,6 @@ public class Remain_Gas extends AppCompatActivity {
             inputStream.close();
             httpURLConnection.disconnect();
             Log.i("result", "["+result+"]");
-            JSONObject responseJSON = new JSONObject(result);
-            String Company_Name = responseJSON.getString("Company_Name");
-            CompanyName.setText(Company_Name);
-            Customer_Id = responseJSON.getString("Customer_Id");
-            Log.i("Customer_Id",Customer_Id);
-            Company_id = responseJSON.getString("COMPANY_Id");
         }
         catch(Exception e){
             Log.i("Company Name Exception",e.toString());
@@ -145,11 +184,11 @@ public class Remain_Gas extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("success")) {
+                    if (response.contains("success")) {
                         Intent intent = new Intent(Remain_Gas.this, ScanNewQRCode.class);
                         startActivity(intent);
                         Log.i("GasRemain", "Successfully store GasRemain.");
-                        next.setClickable(false);
+                        //next.setClickable(false);
                     } else if (response.equals("failure")) {
                         Log.i("GasRemain", "Something went wrong!");
                     }

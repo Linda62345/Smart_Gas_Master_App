@@ -65,6 +65,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.405" />
 
+    <!--
     <EditText
         android:id="@+id/RemainGasInput"
         android:layout_width="wrap_content"
@@ -77,19 +78,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.534" />
+    -->
+
+    <ListView
+        android:id="@+id/Listview"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517"
+
+        />
 
     <Button
         android:id="@+id/ScanNewGas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="16dp"
         android:text="掃描新瓦斯桶"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next" />
+        app:layout_constraintTop_toBottomOf="@+id/Listview"
+        app:layout_constraintVertical_bias="0.676" />
 
+    <!--
+    app:layout_constraintTop_toBottomOf="@+id/next"
     <Button
         android:id="@+id/next"
         android:layout_width="wrap_content"
@@ -99,5 +117,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RemainGasInput" />
+        app:layout_constraintTop_toBottomOf="@+id/RemainGasInput" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
