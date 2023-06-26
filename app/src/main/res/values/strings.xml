@@ -100,5 +100,6 @@
     <string name="gasQuantity">瓦斯桶數量 :</string>
 
     <string name="takeOrderTitle">搶單</string>
+    <string name="timeBuy">訂購時間 :</string>
 
 </resources>
