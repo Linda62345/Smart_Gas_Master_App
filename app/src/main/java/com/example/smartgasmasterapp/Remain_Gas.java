@@ -120,12 +120,20 @@ public class Remain_Gas extends AppCompatActivity {
                         JSONArray ja = new JSONArray(result);
                         JSONObject jo = null;
 
-                        for(int i = 0; i<ja.length();i++){
+                        for (int i = 0; i < ja.length(); i++) {
                             jo = ja.getJSONObject(i);
-                            remainGasVolumnList.add(Integer.parseInt(jo.getString("SENSOR_Weight")));
-                            remainGas.add("感應器"+jo.getString("SENSOR_Id")+": "+jo.getString("SENSOR_Weight")+"公斤");
+                            String sensorWeight = jo.getString("SENSOR_Weight");
+                            Log.i("sensorweight",sensorWeight);
+                            if (sensorWeight != null) {
+                                remainGasVolumnList.add(Integer.parseInt(sensorWeight));
+                                remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+                            } else {
+                                remainGasVolumnList.add(0); // Or any other default value
+                                remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
+                            }
                         }
                         Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

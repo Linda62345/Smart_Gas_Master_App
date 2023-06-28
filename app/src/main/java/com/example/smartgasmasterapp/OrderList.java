@@ -155,7 +155,7 @@ public class OrderList extends AppCompatActivity {
 
                 for(int i = 0; i<ja.length();i++){
                     jo = ja.getJSONObject(i);
-                    data[i] = jo.getString("DELIVERY_Address");
+                    data[i] = new String(jo.getString("DELIVERY_Address").getBytes("ISO-8859-1"), "UTF-8");
                     Log.i("order data",data[i]);
                     order_Id[i] = jo.getString("ORDER_Id");
                 }
