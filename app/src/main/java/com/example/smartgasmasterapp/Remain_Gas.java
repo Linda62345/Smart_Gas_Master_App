@@ -75,25 +75,6 @@ public class Remain_Gas extends AppCompatActivity {
                 SaveVolume();
             }
         });
-        /*
-        if(!RemainInput.getText().toString().trim().isEmpty()){
-                    volume = Integer.parseInt(RemainInput.getText().toString().trim());
-                    RemainInput.setText("");
-                }
-        if(!RemainInput.getText().toString().trim().isEmpty()){
-            volume = Integer.parseInt(RemainInput.getText().toString().trim());
-        }
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!RemainInput.getText().toString().trim().isEmpty()){
-                    volume = Integer.parseInt(RemainInput.getText().toString().trim());
-                    RemainInput.setText("");
-                }
-                total_volume += volume;
-                Log.i("volume", String.valueOf(total_volume));
-            }
-        });*/
 
         Thread thread = new Thread(new Runnable() {
 
