@@ -52,8 +52,6 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next_gas = findViewById(R.id.next_gas);
 
         OrderInfo orderInfo = new OrderInfo();
-        //Original_Order_Id = orderInfo.getOriginal_Order_Id();
-        //Log.i("Original_Gas_Id",Original_Order_Id);
         gas_quantity = orderInfo.gas_quantity;
         Gas_Id_Array = new ArrayList<String>();
 

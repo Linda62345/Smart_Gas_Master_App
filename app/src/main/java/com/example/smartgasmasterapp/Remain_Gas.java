@@ -38,7 +38,8 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 public class Remain_Gas extends AppCompatActivity {
-    public String order_Id,Customer_Id,Company_id,result;
+    public String order_Id,Company_id,result;
+    public static String Customer_Id;
     public Button Scan_New_Gas,next;
     public TextView CompanyName;
     public int volume,total_volume;
@@ -92,7 +93,7 @@ public class Remain_Gas extends AppCompatActivity {
 
                     //獲取Sensor weight的重量
                     result = "";
-                    GetData("http://10.0.2.2/SQL_Connect/GetRemainGas.php",Customer_Id);
+                    GetData("http://10.0.2.2/SQL_Connect/Show_IOT.php",Customer_Id);
                     Log.i("remain gas result", result);
                     if(result.contains("Warning")){
                         Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();

@@ -49,6 +49,14 @@
             android:exported="false"
             android:label="@string/scanIDString" />
         <activity
+            android:name=".ecchangeSucced"
+            android:exported="false"
+            android:label="換桶成功通知" />
+        <activity
+            android:name=".ExchangeScanFailed"
+            android:exported="false"
+            android:label="換桶失敗通知" />
+        <activity
             android:name=".ScanReceiptQRCode"
             android:exported="false"
             android:label="@string/scanReceiptString" />
