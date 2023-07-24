@@ -31,7 +31,7 @@ public class ForgetPassword2 extends AppCompatActivity {
     public EditText NewPassword,reNewPassword;
     private TextView tvStatus;
     public String newpassword, renewpassword,email;
-    private String URL = "http://10.0.2.2/SQL_Connect/reSetPassword.php";
+    private String URL = "http://54.199.33.241/test/reSetPassword.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +73,14 @@ public class ForgetPassword2 extends AppCompatActivity {
 
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("success")) {
+                    if (response.contains("success")) {
                         Intent intent = new Intent(ForgetPassword2.this, LoginActivity.class);
                         startActivity(intent);
                         tvStatus.setText("Successfully changePassword.");
                         back.setClickable(false);
-                    } else if (response.equals("failure")) {
+                    } else if (response.contains("failure")) {
                         tvStatus.setText("Something went wrong!");
-                    } else if (response.equals("the phone didn't sign up yet!!!")){
+                    } else if (response.contains("the phone didn't sign up yet!!!")){
                         tvStatus.setText("此手機號碼尚未註冊");
                     }
             }}, new Response.ErrorListener() {

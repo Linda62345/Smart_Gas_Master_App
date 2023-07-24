@@ -92,7 +92,7 @@ public class EditPersonalInfo extends AppCompatActivity {
     }
     public void showData() throws MalformedURLException {
         try{
-        String Showurl = "http://10.0.2.2/SQL_Connect/Show_Worker_Profile.php";
+        String Showurl = "http://54.199.33.241/test/Show_Worker_Profile.php";
         URL url = new URL(Showurl);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("POST");
@@ -136,7 +136,7 @@ public class EditPersonalInfo extends AppCompatActivity {
 
     public void saveProfile(){
         try {
-            String URL = "http://10.0.2.2/SQL_Connect/Save_Worker_Profile.php";
+            String URL = "http://54.199.33.241/test/Save_Worker_Profile.php";
             worker_name = Name.getText().toString().trim();
             phone = Phone.getText().toString().trim();
             tel = Tel.getText().toString().trim();
@@ -148,13 +148,13 @@ public class EditPersonalInfo extends AppCompatActivity {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.equals("success")) {
+                        if (response.contains("success")) {
                             Log.i("saveProfile", "Successfully registered.");
                             Intent intent = new Intent(EditPersonalInfo.this, Homepage.class);
                             intent.putExtra("email", Email.getText().toString());
                             startActivity(intent);
                             save.setClickable(false);
-                        } else if (response.equals("failure")) {
+                        } else if (response.contains("failure")) {
                             Log.i("saveProfile", "Something went wrong!");
                         }
                     }

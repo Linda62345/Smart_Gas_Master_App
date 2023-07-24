@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(){
-        String url = "http://10.0.2.2:80/SQL_Connect/login.php";
+        String url = "http://54.199.33.241/test/login.php";
         email = username.getText().toString().trim();
         password = Password.getText().toString().trim();
         if(!email.equals("") && !password.equals("")) {
@@ -261,7 +261,7 @@ public class LoginActivity extends AppCompatActivity {
         else {
             try {
                 email = username.getText().toString().trim();
-                String Findurl = "http://10.0.2.2:80/SQL_Connect/Find_Worker_ID.php";
+                String Findurl = "http://54.199.33.241/test/Find_Worker_ID.php";
                 URL url = new URL(Findurl);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");

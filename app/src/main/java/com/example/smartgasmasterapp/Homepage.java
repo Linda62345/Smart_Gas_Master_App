@@ -99,7 +99,7 @@ public class Homepage extends AppCompatActivity {
     }
     public void WorkerName(){
         try{
-            String Showurl = "http://10.0.2.2/SQL_Connect/Show_Worker_Profile.php";
+            String Showurl = "http://54.199.33.241/test/Show_Worker_Profile.php";
             URL url = new URL(Showurl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
@@ -125,8 +125,18 @@ public class Homepage extends AppCompatActivity {
             httpURLConnection.disconnect();
             Log.i("result", "["+result+"]");
             JSONObject responseJSON = new JSONObject(result);
-            String Worker_Name = responseJSON.getString("Worker_Name");
-            name.setText(Worker_Name);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String Worker_Name = responseJSON.getString("Worker_Name");
+                        name.setText(Worker_Name);
+                    }
+                    catch (Exception e){
+                        Log.i("Worker Name Ex",e.toString());
+                    }
+                }
+            });
         }
         catch(Exception e){
             Log.i("Worker name",e.toString());

@@ -28,7 +28,7 @@ public class ForgetPassword1 extends AppCompatActivity {
 
     private Button newPass;
     public EditText email,number;
-    private String URL = "http://10.0.2.2/SQL_Connect/index.php";
+    private String URL = "http://54.199.33.241/test/index.php";
     public String verify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,8 @@ public class ForgetPassword1 extends AppCompatActivity {
                     }
                     else{
                         String Input_number = number.getText().toString().trim();
-                        if(verify.equals(Input_number)){
+                        //這裡要在修改
+                        if(verify.contains(Input_number)){
                             Intent intent = new Intent(ForgetPassword1.this, ForgetPassword2.class);
                             intent.putExtra("email", email.getText().toString());
                             startActivity(intent);
@@ -78,7 +79,7 @@ public class ForgetPassword1 extends AppCompatActivity {
                 public void onResponse(String response) {
                     Log.d("res", response);
                     if (response.contains("success")) {
-                        verify = response.substring(7,response.length());
+                        verify = response.substring(9,response.length());
                         newPass.setText("確認驗證碼");
                         Log.i("response",response);
                     } else if (response.contains("failure")) {

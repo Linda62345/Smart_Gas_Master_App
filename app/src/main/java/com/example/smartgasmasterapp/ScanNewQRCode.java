@@ -168,7 +168,7 @@ public class ScanNewQRCode extends AppCompatActivity {
 
     public void GasData(){
         try{
-            String Showurl = "http://10.0.2.2/SQL_Connect/Show_Gas_Info.php";
+            String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
             URL url = new URL(Showurl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
@@ -195,7 +195,7 @@ public class ScanNewQRCode extends AppCompatActivity {
             httpURLConnection.disconnect();
             Log.i("Gas_ID", "["+result+"]");
             JSONObject responseJSON = new JSONObject(result);
-            if(responseJSON.getString("response").equals("failure")){
+            if(responseJSON.getString("response").contains("failure")){
                 Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
             }
             else{
@@ -218,7 +218,7 @@ public class ScanNewQRCode extends AppCompatActivity {
 
     public void saveNewGas(){
         try {
-            String URL = "http://10.0.2.2/SQL_Connect/Save_NewGasID.php";
+            String URL = "http://54.199.33.241/test/Save_NewGasID.php";
             String New_Gas_Id;
             New_Gas_Id = input_newGasId.getText().toString().trim();
             if (New_Gas_Id_Array.size()==0) {
@@ -279,7 +279,7 @@ public class ScanNewQRCode extends AppCompatActivity {
     public void action(String sql, final ActionCallback callback) {
         condition = ""; // Initialize condition
 
-        String url = "http://10.0.2.2/SQL_Connect/Save_Array_GasID.php";
+        String url = "http://54.199.33.241/test/Save_Array_GasID.php";
         try {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
