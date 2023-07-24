@@ -8,7 +8,7 @@
     android:background="@color/white">
 
 
-    <com.budiyev.android.codescanner.CodeScannerView
+    <androidx.camera.view.PreviewView
         android:id="@+id/receiptScanner"
         android:layout_width="match_parent"
         android:layout_height="272dp"

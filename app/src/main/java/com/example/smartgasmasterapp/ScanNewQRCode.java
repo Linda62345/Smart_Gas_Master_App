@@ -3,12 +3,23 @@ package com.example.smartgasmasterapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Size;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,10 +33,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.budiyev.android.codescanner.CodeScanner;
-import com.budiyev.android.codescanner.CodeScannerView;
-import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.zxing.Result;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import android.Manifest;
 
 import org.json.JSONObject;
 
@@ -48,17 +58,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 import java.sql.*;
+import java.util.concurrent.ExecutionException;
 
 
 public class ScanNewQRCode extends AppCompatActivity {
-
-    private CodeScanner mCodeScanner;
+    private static final int PERMISSION_REQUEST_CAMERA = 0;
+    private PreviewView previewView;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private Button next,next_gas;
     public String order_Id, currentDateTimeString;
     public EditText input_newGasId;
     private TextView GAS_ID, Initial_Volume, GAS_Type;
     public ArrayList<String> New_Gas_Id_Array;
-    public String Customer_Id;
+    public String Customer_Id,qrCode;
     public static String condition,S_condition;
 
 
@@ -72,52 +84,14 @@ public class ScanNewQRCode extends AppCompatActivity {
         OrderInfo orderInfo = new OrderInfo();
 
         next = findViewById(R.id.confirm_NewScan_button);
+        previewView = findViewById(R.id.newScanner);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    //New_Gas_Id_Array.add(input_newGasId.getText().toString());
-                    saveNewGas();
-                    try {
-                        //saveGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
-                        saveCustomerGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
-                    }
-                    catch (Exception e){
-                        Log.i("Exchange Gas",e.toString());
-                    }
-                }
-                catch (Exception e){
-                    Log.i("Save New Gas",e.toString());
-                }
-            }
-        });
 
-        CodeScannerView scannerView = findViewById(R.id.newScanner);
-        mCodeScanner = new CodeScanner(this, scannerView);
-        mCodeScanner.setDecodeCallback(new DecodeCallback() {
-            @Override
-            public void onDecoded(@NonNull final Result result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ScanNewQRCode.this, result.getText(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-        scannerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCodeScanner.startPreview();
-            }
-        });
 
         OrderList orderList = new OrderList();
         order_Id = orderList.static_order_id;
 
         input_newGasId = findViewById(R.id.mannuallyEnterNewGasCode);
-        input_newGasId.addTextChangedListener(textWatcher);
 
         GAS_ID = findViewById(R.id.changeableNewID);
         Initial_Volume = findViewById(R.id.changeableNewVolume);
@@ -136,6 +110,25 @@ public class ScanNewQRCode extends AppCompatActivity {
 
         Remain_Gas remain_gas = new Remain_Gas();
         Customer_Id = remain_gas.Customer_Id;
+
+        //scanner
+        next.setVisibility(View.VISIBLE);
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                saveIOT();
+                // enterNewIot.setText(""); // Clear the EditText
+//                enterNewIot.setText(qrCode);
+//                Toast.makeText(getApplicationContext(), qrCode, Toast.LENGTH_SHORT).show();
+//                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+            }
+        });
+
+        //ShowDataDetail();
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+        requestCamera();
+
     }
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -154,17 +147,7 @@ public class ScanNewQRCode extends AppCompatActivity {
             }
         }};
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mCodeScanner.startPreview();
-    }
 
-    @Override
-    protected void onPause() {
-        mCodeScanner.releaseResources();
-        super.onPause();
-    }
 
     public void GasData(){
         try{
@@ -569,6 +552,86 @@ public class ScanNewQRCode extends AppCompatActivity {
 
     }
 
+
+    //scanner
+    private void requestCamera() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            startCamera();
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(ScanNewQRCode.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startCamera();
+            } else {
+                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void startCamera() {
+        cameraProviderFuture.addListener(() -> {
+            try {
+                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                bindCameraPreview(cameraProvider);
+            } catch (ExecutionException | InterruptedException e) {
+                Toast.makeText(this, "Error starting camera " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    private void bindCameraPreview(@NonNull ProcessCameraProvider cameraProvider) {
+        previewView.setPreferredImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+
+        Preview preview = new Preview.Builder()
+                .build();
+
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                .build();
+
+        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+
+        ImageAnalysis imageAnalysis =
+                new ImageAnalysis.Builder()
+                        .setTargetResolution(new Size(1280, 720))
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .build();
+
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new QRCodeImageAnalyzer(new QRCodeFoundListener() {
+            @Override
+            public void onQRCodeFound(String _qrCode) {
+                qrCode = _qrCode;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        input_newGasId.setText(qrCode);
+                    }
+                });
+                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+            }
+
+            @Override
+            public void qrCodeNotFound() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        order_ID_Text.setText(""); // Clear the EditText when QR code is not found
+                    }
+                });
+            }
+        }));
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageAnalysis, preview);
+    }
 
 
 }
