@@ -108,6 +108,9 @@ public class Remain_Gas extends AppCompatActivity {
                             if (sensorWeight != null) {
                                 remainGasVolumnList.add(Integer.parseInt(sensorWeight));
                                 remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+                                //if suceed, change page
+                                Intent intent = new Intent(Remain_Gas.this,ScanNewQRCode.class);
+                                startActivity(intent);
                             } else {
                                 remainGasVolumnList.add(0); // Or any other default value
                                 remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
@@ -131,6 +134,14 @@ public class Remain_Gas extends AppCompatActivity {
             }
         });
         thread.start();
+
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Remain_Gas.this,ScanNewQRCode.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
     public void GetData(String geturl,String id){

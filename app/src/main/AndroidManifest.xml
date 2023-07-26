@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
@@ -59,22 +61,23 @@
         <activity
             android:name=".ScanReceiptQRCode"
             android:exported="false"
-            android:label="@string/scanReceiptString" />
+            android:label="@string/scanReceiptString"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ScanNewQRCode"
             android:exported="false"
             android:label="@string/scanNewString"
-            android:parentActivityName=".ScanOriginalQRCode" />
+            android:parentActivityName=".Remain_Gas" />
         <activity
             android:name=".Remain_Gas"
             android:exported="false"
-            android:label="殘氣輸入" />
-
+            android:label="殘氣輸入"
+            android:parentActivityName=".ScanOriginalQRCode"/>
         <activity
             android:name=".ScanOriginalQRCode"
             android:exported="false"
             android:label="@string/scanOriginalString"
-            android:parentActivityName=".Homepage" />
+            android:parentActivityName=".ScanReceiptQRCode" />
         <activity
             android:name=".EditPersonalInfo"
             android:exported="false"

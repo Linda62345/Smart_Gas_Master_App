@@ -27,6 +27,7 @@ import android.Manifest;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 
@@ -43,6 +44,7 @@ public class ScanReceiptQRCode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_receipt_qrcode);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         previewView = findViewById(R.id.receiptScanner);
         order_ID_Text = findViewById(R.id.mannuallyEnterReceiptCode);
@@ -72,6 +74,8 @@ public class ScanReceiptQRCode extends AppCompatActivity {
 //                enterNewIot.setText(qrCode);
 //                Toast.makeText(getApplicationContext(), qrCode, Toast.LENGTH_SHORT).show();
 //                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+                Intent intent = new Intent(ScanReceiptQRCode.this,ScanOriginalQRCode.class);
+                startActivity(intent);
             }
         });
 
