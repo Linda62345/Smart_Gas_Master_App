@@ -17,14 +17,21 @@
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="329dp"
             android:layout_gravity="center"
-            android:layout_marginTop="21.1dp">
+            android:layout_marginTop="21.1dp"
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="204dp"
-                android:layout_height="231dp"
-                android:layout_marginTop="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:minWidth="100dp"
+                android:background="@drawable/grey_circle"
+                android:padding="10dp"
+                android:layout_marginVertical="35dp"
+                android:layout_gravity="center"
                 android:src="@drawable/baseline_person_24" />
 
             <RelativeLayout
@@ -54,16 +61,19 @@
                     android:id="@+id/edit_personal_info_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginTop="115dp"
                     android:paddingHorizontal="20dp"
                     android:text="@string/edit_personal"
                     android:textColor="#ff3272d7"
                     app:cornerRadius="5dp"
                     android:background="@drawable/oval_button"/>
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginTop="170dp"
                     android:paddingHorizontal="20dp"
                     android:background="@drawable/oval_button"
@@ -76,11 +86,10 @@
         </GridLayout>
 
         <Button
-            android:layout_width="328.9dp"
+            android:layout_width="329dp"
             android:layout_height="142.0dp"
             android:foregroundGravity="center"
-            android:gravity="center"
-            android:layout_marginStart="38.0dp"
+            android:layout_gravity="center"
             android:text="@string/today_order"
             android:textStyle="bold"
             android:textSize="25sp"

@@ -74,7 +74,7 @@ public class ScanReceiptQRCode extends AppCompatActivity {
 //                enterNewIot.setText(qrCode);
 //                Toast.makeText(getApplicationContext(), qrCode, Toast.LENGTH_SHORT).show();
 //                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
-                Intent intent = new Intent(ScanReceiptQRCode.this,ScanOriginalQRCode.class);
+                Intent intent = new Intent(ScanReceiptQRCode.this,Remain_Gas.class);
                 startActivity(intent);
             }
         });
