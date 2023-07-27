@@ -226,7 +226,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 @Override
                 public void onResponse(String response) {
                     if (response.contains("success")) {
-                        Intent intent = new Intent(Register.this, Homepage.class);
+                        Intent intent = new Intent(Register.this, LoginActivity.class);
                         startActivity(intent);
                         tvStatus.setText("Successfully registered.");
                         register.setClickable(false);

@@ -81,26 +81,42 @@ public class Remain_Gas extends AppCompatActivity {
 
             @Override
             public void run() {
-                try  {
-                    GetData("http://54.199.33.241/test/Show_Company_Name.php", order_Id);
-                    JSONObject responseJSON = new JSONObject(result);
-                    String Company_Name = responseJSON.getString("Company_Name");
-                    CompanyName.setText(Company_Name);
-                    Customer_Id = responseJSON.getString("Customer_Id");
-                    Log.i("Customer_Id",Customer_Id);
-                    Company_id = responseJSON.getString("COMPANY_Id");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try  {
+                            GetData("http://54.199.33.241/test/Show_Company_Name.php", order_Id);
+                            JSONObject responseJSON = new JSONObject(result);
+                            String Company_Name = responseJSON.getString("Company_Name");
+                            CompanyName.setText(Company_Name);
+                            Customer_Id = responseJSON.getString("Customer_Id");
+                            Log.i("Customer_Id",Customer_Id);
+                            Company_id = responseJSON.getString("COMPANY_Id");
 
-                    //獲取Sensor weight的重量
-                    result = "";
-                    GetData("http://54.199.33.241/test/Show_IOT.php",Customer_Id);
-                    Log.i("remain gas result", result);
-                    if(result.contains("Warning")){
-                        Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        JSONArray ja = new JSONArray(result);
-                        JSONObject jo = null;
+                            //獲取Sensor weight的重量
+                            result = "";
+                            GetData("http://54.199.33.241/test/Show_IOT.php",Customer_Id);
+                            Log.i("remain gas result", result);
+                            if(result.contains("Warning")){
+                                Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                JSONArray ja = new JSONArray(result);
+                                JSONObject jo = null;
 
+                                for (int i = 0; i < ja.length(); i++) {
+                                    jo = ja.getJSONObject(i);
+                                    String sensorWeight = jo.getString("SENSOR_Weight");
+                                    Log.i("sensorweight",sensorWeight);
+                                    if (sensorWeight != null) {
+                                        remainGasVolumnList.add(Integer.parseInt(sensorWeight));
+                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+                                    } else {
+                                        remainGasVolumnList.add(0); // Or any other default value
+                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
+                                    }
+                                }
+                                Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
                         for (int i = 0; i < ja.length(); i++) {
                             jo = ja.getJSONObject(i);
                             String sensorWeight = jo.getString("SENSOR_Weight");
@@ -118,30 +134,19 @@ public class Remain_Gas extends AppCompatActivity {
                         }
                         Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
                                 if (remainGas.size() > 0) {
                                     RemainGasAdapterList adapterList = new RemainGasAdapterList(getApplicationContext(), R.layout.adapter_remain_gas, remainGas);
                                     listView.setAdapter(adapterList);
                                 }
                             }
-                        });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                });
             }
         });
         thread.start();
-
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Remain_Gas.this,ScanNewQRCode.class);
-//                startActivity(intent);
-//            }
-//        });
 
     }
     public void GetData(String geturl,String id){
