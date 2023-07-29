@@ -179,7 +179,7 @@ public class ScanNewQRCode extends AppCompatActivity {
                 Initial_Volume.setText("");
                 GAS_Type.setText("");
             } else {
-                String Showurl = "http://140.119.146.46:80/SQL_Connect/Show_Gas_Info.php";
+                String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
                 URL url = new URL(Showurl);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -236,7 +236,7 @@ public class ScanNewQRCode extends AppCompatActivity {
 
     public void saveNewGas(){
         try {
-            String URL = "http://140.119.146.46:80/SQL_Connect/Save_NewGasID.php";
+            String URL = "http://54.199.33.241/test/Save_NewGasID.php";
             String New_Gas_Id;
             New_Gas_Id = input_newGasId.getText().toString().trim();
             if (New_Gas_Id_Array.size()==0) {
@@ -297,7 +297,7 @@ public class ScanNewQRCode extends AppCompatActivity {
     public void action(String sql, final ActionCallback callback) {
         condition = ""; // Initialize condition
 
-        String url = "http://140.119.146.46:80/SQL_Connect/Save_Array_GasID.php";
+        String url = "http://54.199.33.241/test/Save_Array_GasID.php";
         try {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
