@@ -180,7 +180,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
     public void sure(){
             try{
-                String Showurl = "http://140.119.146.46:80/SQL_Connect/Show_Gas_Info.php";
+                String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
                 URL url = new URL(Showurl);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -212,7 +212,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
                 }else {
                     // Move the layout change inside the else block
 //                    Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
-                    Intent intent = new Intent(ScanOriginalQRCode.this, ScanNewQRCode.class);
+                    Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
                     startActivity(intent);
                 }
             } catch (Exception e) {
