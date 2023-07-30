@@ -38,18 +38,17 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 public class Remain_Gas extends AppCompatActivity {
-    public String order_Id, Company_id, result;
+    public String order_Id,Company_id,result;
     public static String Customer_Id;
-    public Button Scan_New_Gas, next;
+    public Button Scan_New_Gas,next;
     public TextView CompanyName;
-    public int volume, total_volume;
+    public int volume,total_volume;
     public EditText RemainInput;
     String[] data;
     public static ArrayList<String> remainGas;
     public static ArrayList<Integer> remainGasVolumnList;
     public ListView listView;
-
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remain_gas);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -68,13 +67,18 @@ public class Remain_Gas extends AppCompatActivity {
         Scan_New_Gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (remainGasVolumnList.size() > 0) {
-                    for (int i = 0; i < remainGasVolumnList.size(); i++) {
+                if(remainGasVolumnList.size()>0){
+                    for(int i=0;i<remainGasVolumnList.size();i++){
                         total_volume += remainGasVolumnList.get(i);
                     }
                 }
                 Log.i("volume", String.valueOf(total_volume));
                 SaveVolume();
+
+
+                // Start the ScanNewQRCode activity here
+                Intent intent = new Intent(Remain_Gas.this, ScanNewQRCode.class);
+                startActivity(intent);
             }
         });
 
@@ -85,29 +89,30 @@ public class Remain_Gas extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
+                        try  {
                             GetData("http://54.199.33.241/test/Show_Company_Name.php", order_Id);
                             JSONObject responseJSON = new JSONObject(result);
                             String Company_Name = responseJSON.getString("Company_Name");
                             CompanyName.setText(Company_Name);
                             Customer_Id = responseJSON.getString("Customer_Id");
-                            Log.i("Customer_Id", Customer_Id);
+                            Log.i("Customer_Id",Customer_Id);
                             Company_id = responseJSON.getString("COMPANY_Id");
 
                             //獲取Sensor weight的重量
                             result = "";
-                            GetData("http://54.199.33.241/test/Show_IOT.php", Customer_Id);
+                            GetData("http://54.199.33.241/test/Show_IOT.php",Customer_Id);
                             Log.i("remain gas result", result);
-                            if (result.contains("Warning")) {
+                            if(result.contains("Warning")){
                                 Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else{
                                 JSONArray ja = new JSONArray(result);
                                 JSONObject jo = null;
 
                                 for (int i = 0; i < ja.length(); i++) {
                                     jo = ja.getJSONObject(i);
                                     String sensorWeight = jo.getString("SENSOR_Weight");
-                                    Log.i("sensorweight", sensorWeight);
+                                    Log.i("sensorweight",sensorWeight);
                                     if (sensorWeight != null) {
                                         remainGasVolumnList.add(Integer.parseInt(sensorWeight));
                                         remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
@@ -117,7 +122,25 @@ public class Remain_Gas extends AppCompatActivity {
                                     }
                                 }
                                 Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
-                                Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
+//                        for (int i = 0; i < ja.length(); i++) {
+//                            jo = ja.getJSONObject(i);
+//                            String sensorWeight = jo.getString("SENSOR_Weight");
+//                            Log.i("sensorweight",sensorWeight);
+//                            if (sensorWeight != null) {
+//                                remainGasVolumnList.add(Integer.parseInt(sensorWeight));
+//                                remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+//
+//                            } else {
+//                                remainGasVolumnList.add(0); // Or any other default value
+//                                remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
+//                            }
+//                        }
+
+//                                //if suceed, change page
+//                                Intent intent = new Intent(Remain_Gas.this,ScanNewQRCode.class);
+//                                startActivity(intent);
+
+                        Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
 
                                 if (remainGas.size() > 0) {
                                     RemainGasAdapterList adapterList = new RemainGasAdapterList(getApplicationContext(), R.layout.adapter_remain_gas, remainGas);
@@ -134,9 +157,8 @@ public class Remain_Gas extends AppCompatActivity {
         thread.start();
 
     }
-
-    public void GetData(String geturl, String id) {
-        try {
+    public void GetData(String geturl,String id){
+        try{
             URL url = new URL(geturl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
@@ -160,13 +182,13 @@ public class Remain_Gas extends AppCompatActivity {
             bufferedReader.close();
             inputStream.close();
             httpURLConnection.disconnect();
-            Log.i("result", "[" + result + "]");
-        } catch (Exception e) {
-            Log.i("Company Name Exception", e.toString());
+            Log.i("result", "["+result+"]");
+        }
+        catch(Exception e){
+            Log.i("Company Name Exception",e.toString());
         }
     }
-
-    public void SaveVolume() {
+    public void SaveVolume(){
         //customer, id
         //totalVolume
         //update + or insert
@@ -183,8 +205,7 @@ public class Remain_Gas extends AppCompatActivity {
                     } else if (response.contains("failure")) {
                         Log.i("GasRemain", "Something went wrong!");
                     }
-                }
-            }, new Response.ErrorListener() {
+                }}, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
@@ -195,13 +216,14 @@ public class Remain_Gas extends AppCompatActivity {
                     Map<String, String> data = new HashMap<>();
                     data.put("id", Customer_Id);
                     data.put("gas", String.valueOf(total_volume));
-                    data.put("company", Company_id);
+                    data.put("company",Company_id);
                     return data;
                 }
             };
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             Log.i("S Gas Remain Exception", e.toString());
         }
     }
