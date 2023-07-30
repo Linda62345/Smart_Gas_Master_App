@@ -36,25 +36,34 @@
         app:layout_constraintStart_toEndOf="@+id/order_finished"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:paddingTop="20dp"
-        android:id="@+id/order_button_list_finished"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="544dp"
-        android:layout_marginBottom="2dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/order_finished"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_height="match_parent"
+        android:paddingTop="40dp"
+        android:fillViewport="true">
 
-        <ListView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/order_button_list_finished"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item"/>
+            android:paddingTop="20dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/order_finished"
+            app:layout_constraintVertical_bias="1.0">
 
-    </LinearLayout>
+            <ListView
+                android:id="@+id/list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

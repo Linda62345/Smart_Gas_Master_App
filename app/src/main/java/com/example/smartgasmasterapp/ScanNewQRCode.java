@@ -92,7 +92,7 @@ public class ScanNewQRCode extends AppCompatActivity {
         OrderList orderList = new OrderList();
         order_Id = orderList.static_order_id;
 
-        input_newGasId = findViewById(R.id.mannuallyEnterNewGasCode);
+        input_newGasId = findViewById(R.id.mannuallyEnterGasCode);
 
         GAS_ID = findViewById(R.id.changeableNewID);
         Initial_Volume = findViewById(R.id.changeableNewVolume);
@@ -101,11 +101,15 @@ public class ScanNewQRCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Save Gas Order資料
                 saveNewGas();
-                // Start the HomePage activity using an Intent
-                Intent intent = new Intent(ScanNewQRCode.this, Homepage.class);
-                startActivity(intent);
-
+                //Save 換桶資料: Customer_Gas
+                try {
+                    saveCustomerGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
+                }
+                catch (Exception e){
+                    Log.i("Exchange Gas",e.toString());
+                }
                 // Finish the current activity to prevent the user from navigating back to it
                 finish();
             }

@@ -61,14 +61,9 @@
         <activity
             android:name=".ScanReceiptQRCode"
             android:exported="true"
-            android:label="@string/scanReceiptString">
-<!--            android:parentActivityName=".MainActivity"-->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+            android:label="@string/scanReceiptString"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".ScanNewQRCode"
             android:exported="false"
@@ -83,7 +78,7 @@
             android:name=".ScanOriginalQRCode"
             android:exported="false"
             android:label="@string/scanOriginalString"
-            android:parentActivityName=".ScanReceiptQRCode" />
+            android:parentActivityName=".Homepage" />
         <activity
             android:name=".EditPersonalInfo"
             android:exported="false"
@@ -114,8 +109,12 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

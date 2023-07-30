@@ -210,8 +210,6 @@ public class ScanOriginalQRCode extends AppCompatActivity {
                 if(responseJSON.getString("response").contains("failure")){
                     Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
                 }else {
-                    // Move the layout change inside the else block
-//                    Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
                     Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
                     startActivity(intent);
                 }
