@@ -9,15 +9,16 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
 
-        <GridLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="329dp"
             android:layout_gravity="center"
             android:layout_marginTop="21.1dp"
             android:layout_marginBottom="20dp">
@@ -26,23 +27,23 @@
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                android:background="@drawable/grey_circle"
-                android:padding="10dp"
-                android:layout_marginVertical="35dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/grey_circle"
+                android:minWidth="130dp"
+                android:minHeight="130dp"
+                android:padding="10dp"
                 android:src="@drawable/baseline_person_24" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:text="@string/greetings"
                     android:textColor="#ff000000"
                     android:textSize="20sp"
@@ -50,43 +51,51 @@
 
                 <TextView
                     android:id="@+id/changeable_username"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginVertical="10dp"
                     android:textColor="#ff000000"
                     android:textSize="38sp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/edit_personal_info_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:layout_marginTop="115dp"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/edit_personal"
-                    android:textColor="#ff3272d7"
-                    app:cornerRadius="5dp"
-                    android:background="@drawable/oval_button"/>
+                    android:orientation="horizontal"
+                    >
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/edit_personal_info_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:paddingHorizontal="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="right"
+                        android:text="@string/edit_personal"
+                        android:textColor="#ff3272d7"
+                        app:cornerRadius="5dp"
+                        android:background="@drawable/oval_button"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:layout_marginTop="170dp"
-                    android:paddingHorizontal="20dp"
-                    android:background="@drawable/oval_button"
-                    android:text="登出"
-                    android:textColor="#ff3272d7"
-                    app:cornerRadius="14dp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:paddingHorizontal="20dp"
+                        android:background="@drawable/oval_button"
+                        android:text="登出"
+                        android:textColor="#ff3272d7"
+                        app:cornerRadius="14dp" />
+                </LinearLayout>
 
-            </RelativeLayout>
 
-        </GridLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <Button
-            android:layout_width="329dp"
+            android:layout_width="match_parent"
             android:layout_height="142.0dp"
             android:foregroundGravity="center"
             android:layout_gravity="center"
