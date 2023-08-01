@@ -62,13 +62,14 @@ public class ScanOriginalQRCode extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CAMERA = 0;
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private Button next,next_gas;
+    private Button next, next_gas;
     public String Original_Order_Id, GAS_ID;
     private TextView gas_Id;
     private String qrCode;
     private EditText input_Id;
     public int gas_quantity;
     public static ArrayList<String> Gas_Id_Array = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next_gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(input_Id.getText().toString()!=null&&input_Id.getText().toString()!=""){
+                if (input_Id.getText().toString() != null && input_Id.getText().toString() != "") {
                     Gas_Id_Array.add(input_Id.getText().toString());
                 }
                 input_Id.setText("");
@@ -103,13 +104,12 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(input_Id.getText().toString()!=null&&input_Id.getText().toString()!=""){
+                if (input_Id.getText().toString() != null && input_Id.getText().toString() != "") {
                     Gas_Id_Array.add(input_Id.getText().toString());
                 }
                 sure();
             }
         });
-
 
 
 //        next.setOnClickListener(new View.OnClickListener() {
@@ -132,18 +132,20 @@ public class ScanOriginalQRCode extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 gas_Id.setText(input_Id.getText().toString());
-                Log.i ("sensor_id", String.valueOf(gas_Id));
+                Log.i("sensor_id", String.valueOf(gas_Id));
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }});
+            }
+        });
 
         //ShowDataDetail();
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         requestCamera();
 
+        
 
 //        CodeScannerView scannerView = findViewById(R.id.originalScanner);
 //        mCodeScanner = new CodeScanner(this, scannerView);
@@ -174,66 +176,65 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-      //  mCodeScanner.releaseResources();
+        //  mCodeScanner.releaseResources();
         super.onPause();
     }
 
-    public void sure(){
-            try{
-                String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
-                URL url = new URL(Showurl);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String gas_Id = input_Id.getText().toString().trim();
-                String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(gas_Id), "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String result = "";
-                String line = "";
+    public void sure() {
+        try {
+            String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
+            URL url = new URL(Showurl);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            String gas_Id = input_Id.getText().toString().trim();
+            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(gas_Id), "UTF-8");
+            bufferedWriter.write(post_data);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            outputStream.close();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+            String result = "";
+            String line = "";
 
-                while ((line = bufferedReader.readLine()) != null) {
-                    result += line;
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                Log.i("Gas_ID", "["+result+"]");
-                JSONObject responseJSON = new JSONObject(result);
-                if(responseJSON.getString("response").contains("failure")){
-                    Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
-                }else {
-                    Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
-                    startActivity(intent);
-                }
-            } catch (Exception e) {
-                Log.i("Gas_Data Exception", e.toString());
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
             }
-//            Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
-//            startActivity(intent);
-        }
-
-
-
-        //scanner
-        private void requestCamera() {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                startCamera();
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            Log.i("Gas_ID", "[" + result + "]");
+            JSONObject responseJSON = new JSONObject(result);
+            if (responseJSON.getString("response").contains("failure")) {
+                Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ScanOriginalQRCode.this,GasRegister.class);
+                startActivity(intent);
             } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    ActivityCompat.requestPermissions(ScanOriginalQRCode.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
-                }
+                Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.i("Gas_Data Exception", e.toString());
+        }
+    }
+
+
+    //scanner
+    private void requestCamera() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            startCamera();
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(ScanOriginalQRCode.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
             }
         }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -299,6 +300,6 @@ public class ScanOriginalQRCode extends AppCompatActivity {
                 });
             }
         }));
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageAnalysis, preview);
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
     }
 }

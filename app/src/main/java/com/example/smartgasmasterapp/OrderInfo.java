@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -85,10 +86,8 @@ public class OrderInfo extends AppCompatActivity {
         //error
         //Original_Gas();
         Lorderdetail = (ListView) findViewById(R.id.list_item);
-
         try {
             Orderdetail();
-
         } catch (Exception e) {
             Log.i("Orderdetail Exception",e.toString());
         }
@@ -130,15 +129,6 @@ public class OrderInfo extends AppCompatActivity {
             address.setText(Order_Address);
             Customer_Id = responseJSON.getString("Customer_Id");
             Log.i("Customer_Id",Customer_Id);
-            /*if(responseJSON.getString("Gas_Id")==null){
-                Order_GasId = responseJSON.getString("Gas_Id");
-                //為了要傳給scanOriginalQRCode
-                Original_Gas_Id = Order_GasId;
-                gas_Id.setText("無");
-            }
-            else{
-                gas_Id.setText(responseJSON.getString("Gas_Id"));
-            }*/
             Order_GasQuan = responseJSON.getString("Gas_Quantity");
             gas_Quan.setText(Order_GasQuan);
             gas_quantity = Integer.parseInt(Order_GasQuan);
@@ -243,6 +233,15 @@ public class OrderInfo extends AppCompatActivity {
                 if(orderdetail.size()>0){
                     Log.i("order detail", String.valueOf(orderdetail.size()));
                     Lorderdetail.setAdapter(adapter);
+                    //每個從這裡開始點選
+                    Lorderdetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //adapter.getItem(position);
+                            Intent intent = new Intent(OrderInfo.this, ScanOriginalQRCode.class);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }catch(Exception e){
                 Log.i("Orderdetail JSON Exception",e.toString());

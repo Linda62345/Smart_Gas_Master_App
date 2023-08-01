@@ -87,8 +87,6 @@ public class ScanNewQRCode extends AppCompatActivity {
         next = findViewById(R.id.confirm_NewScan_button);
         previewView = findViewById(R.id.newScanner);
 
-
-
         OrderList orderList = new OrderList();
         order_Id = orderList.static_order_id;
 
@@ -212,6 +210,9 @@ public class ScanNewQRCode extends AppCompatActivity {
                 JSONObject responseJSON = new JSONObject(result);
                 if (responseJSON.getString("response").contains("failure")) {
                     Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ScanNewQRCode.this,GasRegister.class);
+
+                    startActivity(intent);
                 } else {
                     String S_Gas_ID, S_initial_volume, S_Gas_Type;
                     S_Gas_ID = responseJSON.getString("GAS_Id");

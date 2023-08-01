@@ -71,6 +71,10 @@
             android:label="@string/scanNewString"
             android:parentActivityName=".Remain_Gas" />
         <activity
+            android:name=".GasRegister"
+            android:exported="false"
+            android:label="@string/gas_register"/>
+        <activity
             android:name=".Remain_Gas"
             android:exported="false"
             android:label="殘氣輸入"
