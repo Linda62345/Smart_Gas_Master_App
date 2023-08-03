@@ -62,9 +62,7 @@
             android:name=".ScanReceiptQRCode"
             android:exported="false"
             android:label="@string/scanReceiptString"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ScanNewQRCode"
             android:exported="false"
@@ -83,7 +81,7 @@
             android:name=".ScanOriginalQRCode"
             android:exported="false"
             android:label="@string/scanOriginalString"
-            android:parentActivityName=".ScanReceiptQRCode" />
+            android:parentActivityName=".OrderInfo" />
         <activity
             android:name=".EditPersonalInfo"
             android:exported="false"

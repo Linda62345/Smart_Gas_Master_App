@@ -21,7 +21,7 @@
             android:textColor="#ff000000"
             android:textSize="30dp" />
         <TextView
-            android:id="@+id/gasvolumn"
+            android:id="@+id/gasvolume"
             android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

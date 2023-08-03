@@ -28,7 +28,7 @@ public class RemainGasAdapterList extends ArrayAdapter<String> {
         convertView = inflater.inflate(mresource,parent,false);
 
         Button delete = (Button) convertView.findViewById(R.id.deleteButton);
-        TextView gasvolumn = (TextView) convertView.findViewById(R.id.gasvolumn);
+        TextView gasvolumn = (TextView) convertView.findViewById(R.id.gasvolume);
         if(volumn!=null){
             gasvolumn.setText(volumn);
         }

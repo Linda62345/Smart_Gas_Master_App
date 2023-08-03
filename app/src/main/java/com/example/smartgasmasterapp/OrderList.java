@@ -3,6 +3,7 @@ package com.example.smartgasmasterapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -67,6 +68,8 @@ public class OrderList extends AppCompatActivity {
         unfinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                unfinished.setBackgroundColor(Color.GRAY);
+                unfinished.setTextColor(Color.WHITE);
                 orderlist.setAdapter(null);
                 //直接在這裡改orderList
                 getData("http://54.199.33.241/test/Worker_UnOrderList.php");
@@ -83,6 +86,8 @@ public class OrderList extends AppCompatActivity {
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finished.setBackgroundColor(Color.GRAY);
+                finished.setTextColor(Color.WHITE);
                 orderlist.setAdapter(null);
                 //直接在這裡改orderList
                 getData("http://54.199.33.241/test/Worker_OrderList.php");
