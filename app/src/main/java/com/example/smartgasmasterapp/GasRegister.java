@@ -104,8 +104,8 @@ public class GasRegister extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 changeableNewID.setText(mannuallyEnterGasCode.getText().toString());
-                gasId = changeableNewID.getText().toString().trim();
-                Log.i("gas_id: ", String.valueOf(changeableNewID));
+                gasId = mannuallyEnterGasCode.getText().toString();
+                Log.i("gas_id: ", String.valueOf(gasId));
 
             }
 
@@ -126,14 +126,13 @@ public class GasRegister extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 changeableNewVolume.setText(inputGasEmptyWeight.getText().toString());
-                gasWeight = changeableNewVolume.getText().toString().trim();
-                Log.i("gas_weight", String.valueOf(changeableNewVolume));
+                gasWeight = inputGasEmptyWeight.getText().toString();
 //                if(inputGasEmptyWeight.getText().toString()=="10" || inputGasEmptyWeight.getText().toString()=="16" ||inputGasEmptyWeight.getText().toString()=="20"){
 //                    gasType="composite";
 //                } else if (inputGasEmptyWeight.getText().toString()=="6" || inputGasEmptyWeight.getText().toString()=="9" ||inputGasEmptyWeight.getText().toString()=="11"){
 //                    gasType="cylinder";
 //                }
-                Log.i("empty_weight: ", String.valueOf(changeableNewVolume));
+                Log.i("empty_weight: ", String.valueOf(gasWeight));
             }
 
             @Override
@@ -151,15 +150,13 @@ public class GasRegister extends AppCompatActivity {
     public void saveGas(){
         try {
             Log.i("TESTTTTTTTT", "test");
-            String URL = "http://140.119.146.46/SQL_Connect/registGas.php";
+            String URL = "http://10.0.2.2/SQL_Connect/registGas.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.i("gas register response", response);
                     if (response.contains("success")) {
                         Toast.makeText(getApplicationContext(), "瓦斯桶新增成功", Toast.LENGTH_LONG).show();
-                        changeableNewID.setText("");
-                        changeableNewVolume.setText("");
                     } else if (response.contains("Duplicate")) {
                         Toast.makeText(getApplicationContext(), "新增失敗，此瓦斯桶已在資料庫中", Toast.LENGTH_LONG).show();
 
@@ -176,8 +173,8 @@ public class GasRegister extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> data = new HashMap<>();
-                    data.put("gas_id", gasId);
-                    data.put("gas_empty_weight", gasWeight);
+                    data.put("gasId", gasId);
+                    data.put("gasWeightEmpty", gasWeight);
                     return data;
                 }
             };
