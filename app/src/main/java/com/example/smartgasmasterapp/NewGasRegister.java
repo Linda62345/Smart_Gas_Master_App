@@ -42,7 +42,7 @@ import java.util.concurrent.ExecutionException;
 
 //從origin 來的去remain gas
 //從new 回去原來的頁面
-public class GasRegister extends AppCompatActivity {
+public class NewGasRegister extends AppCompatActivity {
     // Declare public elements
     public TextView manuallyEnterCode;
     public Button nextGas;
@@ -76,7 +76,6 @@ public class GasRegister extends AppCompatActivity {
         newScanner = findViewById(R.id.oldScanner);
         manuallyEnterCode = findViewById(R.id.manuallyEnterCode);
         mannuallyEnterGasCode = findViewById(R.id.mannuallyEnterGasCode);
-        //nextGas  = findViewById(R.id.next_gas);
         gasEmptyWeight = findViewById(R.id.gas_empty_weight);
         inputGasEmptyWeight = findViewById(R.id.input_gas_empty_weight);
         newText = findViewById(R.id.oldText);
@@ -156,7 +155,7 @@ public class GasRegister extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GasRegister.this, Remain_Gas.class);
+                Intent intent = new Intent(NewGasRegister.this, Homepage.class);
                 startActivity(intent);
             }
         });
@@ -205,7 +204,7 @@ public class GasRegister extends AppCompatActivity {
             startCamera();
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
-                ActivityCompat.requestPermissions(GasRegister.this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+                ActivityCompat.requestPermissions(NewGasRegister.this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
             }
@@ -264,10 +263,10 @@ public class GasRegister extends AppCompatActivity {
                             mannuallyEnterGasCode.setText(qrCode);
                         }
                     });
-                    Log.i(GasRegister.class.getSimpleName(), "QR Code Found: " + qrCode);
-            }
+                    Log.i(NewGasRegister.class.getSimpleName(), "QR Code Found: " + qrCode);
+                }
                 else {
-                    Log.i(GasRegister.class.getSimpleName(), "QR Code ID Length Incorrect");
+                    Log.i(NewGasRegister.class.getSimpleName(), "QR Code ID Length Incorrect");
                 }
             }
 

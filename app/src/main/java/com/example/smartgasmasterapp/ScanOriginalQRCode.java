@@ -148,7 +148,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
     public void sure() {
         try {
-            String Showurl = "http://54.199.33.241/test/Show_Gas_Info.php";
+            String Showurl = "http://10.0.2.2/SQL_Connect/Show_Gas_Info.php";
             URL url = new URL(Showurl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");

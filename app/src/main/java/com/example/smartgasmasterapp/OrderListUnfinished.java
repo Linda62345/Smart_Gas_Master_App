@@ -90,7 +90,7 @@ public class OrderListUnfinished extends AppCompatActivity {
     }
     private void getOrderList() throws MalformedURLException {
         try{
-            String Showurl = "http://54.199.33.241/test/Worker_UnOrderList.php";
+            String Showurl = "http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php";
             URL url = new URL(Showurl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
@@ -138,7 +138,7 @@ public class OrderListUnfinished extends AppCompatActivity {
     private void getData(){
         //還要把worker Id丟過去
         try {
-            String dataurl = "http://54.199.33.241/test/Worker_UnOrderList.php";
+            String dataurl = "http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php";
             URL url = new URL(dataurl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");

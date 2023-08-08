@@ -28,6 +28,16 @@
         android:theme="@style/Theme.SmartGasMasterApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".RegisterWeightOnly"
+            android:exported="false"
+            android:label="@string/gas_register"
+            android:parentActivityName=".ScanNewQRCode"/>
+        <activity
+            android:name=".NewGasRegister"
+            android:exported="false"
+            android:label="@string/gas_register"
+            android:parentActivityName=".ScanNewQRCode" />
+        <activity
             android:name=".TakeOrder"
             android:exported="false"
             android:label="@string/takeOrderTitle" />
@@ -62,7 +72,7 @@
             android:name=".ScanReceiptQRCode"
             android:exported="false"
             android:label="@string/scanReceiptString"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ScanNewQRCode"
             android:exported="false"
@@ -71,12 +81,13 @@
         <activity
             android:name=".GasRegister"
             android:exported="false"
-            android:label="@string/gas_register"/>
+            android:label="@string/gas_register"
+            android:parentActivityName=".ScanOriginalQRCode" />
         <activity
             android:name=".Remain_Gas"
             android:exported="false"
             android:label="殘氣輸入"
-            android:parentActivityName=".ScanOriginalQRCode"/>
+            android:parentActivityName=".ScanOriginalQRCode" />
         <activity
             android:name=".ScanOriginalQRCode"
             android:exported="false"
@@ -118,8 +129,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
     </application>
 

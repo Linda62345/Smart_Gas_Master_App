@@ -12,10 +12,10 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"錯誤 — 輸入帳號或密碼錯誤，請重新輸入"</string>
-    <string name="confirm_gas_register">確認瓦斯桶註冊</string>
-    <string name="gas_register">瓦斯註冊</string>
-    <string name="gas_empty_weight">輸入瓦斯空桶重</string>
-    <string name="input_gas_empty_weight">請輸入瓦斯空桶重</string>
+    <string name="confirm_gas_register">確認註冊</string>
+    <string name="gas_register">瓦斯桶註冊</string>
+    <string name="gas_empty_weight">輸入瓦斯桶空桶重</string>
+    <string name="input_gas_empty_weight">請輸入瓦斯桶空桶重</string>
 
     <string name="action_settings">Settings</string>
     <string-array name="address_dropdown">
@@ -73,7 +73,7 @@
         <item>晚上</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="enterCode">輸入瓦斯編號</string>
+    <string name="enterCode">輸入瓦斯桶編號</string>
     <string name="originalString">原 瓦斯桶</string>
     <string name="scanOriginalString">掃描原瓦斯桶QrCode</string>
     <string name="scanNewString">掃描新瓦斯桶QrCode</string>

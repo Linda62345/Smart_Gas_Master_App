@@ -99,7 +99,7 @@ public class Homepage extends AppCompatActivity {
     }
     public void WorkerName(){
         try{
-            String Showurl = "http://54.199.33.241/test/Show_Worker_Profile.php";
+            String Showurl = "http://10.0.2.2/SQL_Connect/Show_Worker_Profile.php";
             URL url = new URL(Showurl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");

@@ -8,7 +8,7 @@
     android:background="@color/white">
 
     <Button
-        android:id="@+id/order_finished"
+        android:id="@+id/order_unfinished"
         android:layout_width="0dp"
         android:layout_height="56.9dp"
         android:backgroundTint="#9A9A9A"
@@ -18,12 +18,12 @@
         android:text="@string/finished"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/order_unfinished"
-        app:layout_constraintEnd_toStartOf="@+id/order_unfinished"
+        app:layout_constraintBaseline_toBaselineOf="@+id/order_finished"
+        app:layout_constraintEnd_toStartOf="@+id/order_finished"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/order_unfinished"
+        android:id="@+id/order_finished"
         android:layout_width="0dp"
         android:layout_height="56.9dp"
         android:backgroundTint="#ebebeb"
@@ -33,7 +33,7 @@
         android:textColor="#6b6a6a"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/order_finished"
+        app:layout_constraintStart_toEndOf="@+id/order_unfinished"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView

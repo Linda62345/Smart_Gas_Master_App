@@ -35,8 +35,6 @@ import java.util.Objects;
 public class OrderList extends AppCompatActivity {
 
     private Button unfinished,finished;
-    private Button Order2;
-    private Button Order3;
     private ListView orderlist;
     public int Worker_Id;
     InputStream is = null;
@@ -55,11 +53,12 @@ public class OrderList extends AppCompatActivity {
         Worker_Id = loginActivity.getWorkerID();
         unfinished = findViewById(R.id.order_unfinished);
         orderlist = (ListView)findViewById(R.id.list_item);
+        finished = findViewById(R.id.order_finished);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
-        getData("http://54.199.33.241/test/Worker_OrderList.php");
+        getData("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
         try {
-            getOrderList("http://54.199.33.241/test/Worker_OrderList.php");
+            getOrderList("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
         } catch (Exception e) {
             Log.i("OrderList cre Exception",e.toString());
         }
@@ -70,11 +69,13 @@ public class OrderList extends AppCompatActivity {
             public void onClick(View v) {
                 unfinished.setBackgroundColor(Color.GRAY);
                 unfinished.setTextColor(Color.WHITE);
+                finished.setBackgroundColor(Color.WHITE);
+                finished.setTextColor(Color.GRAY);
                 orderlist.setAdapter(null);
                 //直接在這裡改orderList
-                getData("http://54.199.33.241/test/Worker_UnOrderList.php");
+                getData("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
                 try {
-                    getOrderList("http://54.199.33.241/test/Worker_UnOrderList.php");
+                    getOrderList("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
                 } catch (Exception e) {
                     Log.i("UnOrderList cre Exception",e.toString());
                 }
@@ -82,17 +83,19 @@ public class OrderList extends AppCompatActivity {
             }
         });
 
-        finished = findViewById(R.id.order_finished);
+
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finished.setBackgroundColor(Color.GRAY);
                 finished.setTextColor(Color.WHITE);
+                unfinished.setBackgroundColor(Color.WHITE);
+                unfinished.setTextColor(Color.GRAY);
                 orderlist.setAdapter(null);
                 //直接在這裡改orderList
-                getData("http://54.199.33.241/test/Worker_OrderList.php");
+                getData("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
                 try {
-                    getOrderList("http://54.199.33.241/test/Worker_OrderList.php");
+                    getOrderList("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
                 } catch (Exception e) {
                     Log.i("UnOrderList create Exception",e.toString());
                 }

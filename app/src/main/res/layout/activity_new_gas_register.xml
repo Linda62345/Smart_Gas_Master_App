@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GasRegister"
+    tools:context=".NewGasRegister"
     android:background="@color/white">
 
 
@@ -16,7 +16,7 @@
         android:background="@color/white">
 
         <androidx.camera.view.PreviewView
-            android:id="@+id/oldScanner"
+            android:id="@+id/newScanner"
             android:layout_width="match_parent"
             android:layout_height="272dp"
             android:layout_marginBottom="2dp"
@@ -74,6 +74,7 @@
             />
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,17 +85,17 @@
             >
 
             <TextView
-                android:id="@+id/oldText"
+                android:id="@+id/NewText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="原瓦斯桶 ID ："
+                android:text="新瓦斯桶 ID :"
                 android:textAlignment="textEnd"
                 android:textColor="@android:color/black"
                 android:textSize="20.0sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/changeableOldID"
+                android:id="@+id/changeableNewID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -123,7 +124,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/changeableOldVolume"
+                android:id="@+id/changeableNewVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
@@ -142,17 +143,17 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/confirm_OldScan_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp"
-                android:layout_weight="@integer/material_motion_duration_medium_1"
-                android:backgroundTint="#ff5877e4"
-                android:text="@string/confirm_gas_register"
-                android:textColor="#ffffffff"
-                android:textSize="20.0sp"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/confirm_NewScan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
+            android:layout_weight="@integer/material_motion_duration_medium_1"
+            android:backgroundTint="#ff5877e4"
+            android:text="@string/confirm_gas_register"
+            android:textColor="#ffffffff"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
 
             <TextView
                 android:layout_width="20dp"
