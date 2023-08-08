@@ -56,9 +56,9 @@ public class OrderList extends AppCompatActivity {
         finished = findViewById(R.id.order_finished);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
-        getData("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
+        getData("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
         try {
-            getOrderList("http://10.0.2.2/SQL_Connect/Worker_OrderList.php");
+            getOrderList("http://10.0.2.2/SQL_Connect/Worker_UnOrderList.php");
         } catch (Exception e) {
             Log.i("OrderList cre Exception",e.toString());
         }

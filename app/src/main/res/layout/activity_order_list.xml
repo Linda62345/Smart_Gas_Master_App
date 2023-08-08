@@ -15,7 +15,7 @@
         android:clickable="false"
         android:foregroundGravity="left"
         android:gravity="center"
-        android:text="@string/finished"
+        android:text="@string/unfinished"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/order_finished"
@@ -29,7 +29,7 @@
         android:backgroundTint="#ebebeb"
         android:foregroundGravity="right"
         android:gravity="center"
-        android:text="@string/unfinished"
+        android:text="@string/finished"
         android:textColor="#6b6a6a"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,22 +39,22 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="40dp"
+        android:paddingTop="60dp"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:id="@+id/order_button_list_finished"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:layout_marginBottom="2dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_finished"
-            app:layout_constraintVertical_bias="1.0">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/order_button_list_finished"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/order_finished"-->
+<!--            app:layout_constraintVertical_bias="1.0">-->
 
             <ListView
                 android:id="@+id/list_item"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center" />
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
     </ScrollView>
 
 
