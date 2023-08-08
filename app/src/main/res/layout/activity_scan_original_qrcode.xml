@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScanOriginalQRCode"
-    android:background="@color/white">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/white">
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ScanOriginalQRCode">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/originalScanner"
@@ -23,71 +16,58 @@
             android:backgroundTint="@android:color/white"
             android:scaleType="fitCenter" />
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/manuallyEnterCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/enterCode"
             android:textColor="@android:color/black"
             android:textSize="20.0sp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="7dp"
+
+
+        <EditText
+            android:id="@+id/mannuallyEnterGasCode"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffeeeeee"
+            android:gravity="center"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="16dp"
-            android:layout_gravity="center">
+            android:hint="@string/enterCode"
+            android:layout_gravity="center" />
 
-            <EditText
-                android:id="@+id/mannuallyEnterGasCode"
-                android:layout_width="180dp"
-                android:layout_height="48dp"
-                android:background="#ffeeeeee"
-                android:gravity="center"
-                android:hint="@string/enterCode"
-                android:layout_gravity="center" />
 
-            <Button
-                android:id="@+id/next_gas"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:backgroundTint="#ff5877e4"
-                android:text="下一隻"
-                android:textColor="#ffffffff"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"/>
 
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/originalScannerString"
-            android:layout_width="wrap_content"
-            android:layout_height="55.1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/originalString"
-            android:textColor="@android:color/black"
-            android:textSize="40.0sp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginHorizontal="30dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/OriginalText"
-                android:layout_width="173dp"
+                android:text="原瓦斯桶 ID :"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="@string/gasIDString"
-                android:textAlignment="textEnd"
                 android:textColor="@android:color/black"
                 android:textSize="20.0sp"
                 android:textStyle="bold" />
@@ -103,21 +83,49 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/gasCount"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="掃描次數 : "
+                android:textColor="@android:color/black"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+
+<!--            place the gas count, example 1/3 means 1 of 3-->
+            <TextView
+                android:id="@+id/changableGasCount"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:textColor="@android:color/black"
+                android:textSize="20.0sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/confirm_originalScan_button"
-            android:layout_width="186.3dp"
+            android:text="下一頁"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="60dp"
             android:layout_height="70.9dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="#ff5877e4"
-            android:text="下一頁"
             android:textColor="#ffffffff"
             android:textSize="20.0sp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
+    </LinearLayout>
+    </ScrollView>
 
     </LinearLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
