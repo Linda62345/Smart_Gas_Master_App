@@ -64,7 +64,7 @@ public class GasRegister extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private EditText mannuallyEnterGasCode,inputGasEmptyWeight;
     private String qrCode,gasId,gasWeight;
-    private String URL = "http://10.0.2.2/SQL_Connect/registGas.php";
+    private String URL = "http://54.199.33.241/test/registGas.php";
     private ArrayList<String> new_Gas_Id_Array, empty_Weight_Array;
 
     protected void onCreate(Bundle savedInstanceState) {

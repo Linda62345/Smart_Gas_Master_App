@@ -90,7 +90,7 @@ public class Remain_Gas extends AppCompatActivity {
                     @Override
                     public void run() {
                         try  {
-                            GetData("http://10.0.2.2/SQL_Connect/Show_Company_Name.php", order_Id);
+                            GetData("http://54.199.33.241/test/Show_Company_Name.php", order_Id);
                             JSONObject responseJSON = new JSONObject(result);
                             String Company_Name = responseJSON.getString("Company_Name");
                             CompanyName.setText(Company_Name);
@@ -100,7 +100,7 @@ public class Remain_Gas extends AppCompatActivity {
 
                             //獲取Sensor weight的重量
                             result = "";
-                            GetData("http://10.0.2.2/SQL_Connect/Show_IOT.php",Customer_Id);
+                            GetData("http://54.199.33.241/test/Show_IOT.php",Customer_Id);
                             Log.i("remain gas result", result);
                             if(result.contains("Warning")){
                                 Toast.makeText(Remain_Gas.this, "此客戶尚未註冊IOT", Toast.LENGTH_SHORT).show();
@@ -115,10 +115,10 @@ public class Remain_Gas extends AppCompatActivity {
                                     Log.i("sensorweight",sensorWeight);
                                     if (sensorWeight != null) {
                                         remainGasVolumnList.add(Integer.parseInt(sensorWeight));
-                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+                                        remainGas.add("感應器 " + jo.getString("SENSOR_Id") + "/n" + sensorWeight + "公斤");
                                     } else {
                                         remainGasVolumnList.add(0); // Or any other default value
-                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
+                                        remainGas.add("感應器 " + jo.getString("SENSOR_Id") + "/n" +"N/A");
                                     }
                                 }
                                 Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
@@ -193,7 +193,7 @@ public class Remain_Gas extends AppCompatActivity {
         //totalVolume
         //update + or insert
         try {
-            String URL = "http://10.0.2.2/SQL_Connect/Save_RemainGas.php";
+            String URL = "http://54.199.33.241/test/Save_RemainGas.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
