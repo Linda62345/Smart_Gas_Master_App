@@ -16,6 +16,7 @@
     <string name="gas_register">瓦斯桶註冊</string>
     <string name="gas_empty_weight">輸入瓦斯桶空桶重</string>
     <string name="input_gas_empty_weight">請輸入瓦斯桶空桶重</string>
+    <string name="confirm_gas_weight_empty">確認空桶重</string>
 
     <string name="action_settings">Settings</string>
     <string-array name="address_dropdown">

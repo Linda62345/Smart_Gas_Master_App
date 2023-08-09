@@ -39,6 +39,7 @@ public class RemainGasAdapterList extends ArrayAdapter<String> {
                 if(remain_gas.remainGas.size()>0){
                     remain_gas.remainGas.remove(position);
                     remain_gas.remainGasVolumnList.remove(position);
+                    remain_gas.finalSensorId.remove(position);
                     notifyDataSetChanged();
                 }
             }

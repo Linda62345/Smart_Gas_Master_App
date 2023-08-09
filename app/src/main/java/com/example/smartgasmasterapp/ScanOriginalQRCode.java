@@ -75,6 +75,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         setContentView(R.layout.activity_scan_original_qrcode);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        //next_gas = findViewById(R.id.next_gas);
         next = findViewById(R.id.confirm_originalScan_button);
 
         OrderInfo orderInfo = new OrderInfo();
@@ -85,7 +86,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         input_Id = findViewById(R.id.mannuallyEnterGasCode);
         previewView = findViewById(R.id.originalScanner);
 
-        next_gas.setOnClickListener(new View.OnClickListener() {
+        /*next_gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (input_Id.getText().toString() != null && input_Id.getText().toString() != "") {
@@ -93,7 +94,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
                 }
                 input_Id.setText("");
             }
-        });
+        });*/
 
 
         //scanner
