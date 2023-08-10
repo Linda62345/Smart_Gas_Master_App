@@ -81,14 +81,14 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="45dp"
             >
 
             <TextView
                 android:id="@+id/NewText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新瓦斯桶 ID :"
+                android:text="新瓦斯桶 ID:"
                 android:textAlignment="textEnd"
                 android:textColor="@android:color/black"
                 android:textSize="20.0sp"
@@ -111,13 +111,13 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:layout_marginHorizontal="50dp">
+            android:layout_marginHorizontal="45dp">
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="瓦斯空桶重  :  "
+                android:text="瓦斯空桶重 :"
                 android:textAlignment="textEnd"
                 android:textColor="@android:color/black"
                 android:textSize="20.0dp"

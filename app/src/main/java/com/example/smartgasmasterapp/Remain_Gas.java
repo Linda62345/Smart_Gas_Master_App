@@ -116,11 +116,11 @@ public class Remain_Gas extends AppCompatActivity {
                                     Log.i("sensorweight", sensorWeight);
                                     if (sensorWeight != null) {
                                         remainGasVolumnList.add(Integer.parseInt(sensorWeight));
-                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": " + sensorWeight + "公斤");
+                                        remainGas.add("感應器: " + jo.getString("SENSOR_Id") + "\n" + sensorWeight + " 公斤");
                                         finalSensorId.add(jo.getString("SENSOR_Id"));
                                     } else {
                                         remainGasVolumnList.add(0); // Or any other default value
-                                        remainGas.add("感應器" + jo.getString("SENSOR_Id") + ": N/A");
+                                        remainGas.add("感應器: " + jo.getString("SENSOR_Id") + "\n" + "N/A");
                                         finalSensorId.add(jo.getString("SENSOR_Id"));
                                     }
                                 }

@@ -219,14 +219,14 @@ public class OrderInfo extends AppCompatActivity {
                 weight = new String[ja.length()];
                 orderdetail = new ArrayList<>();
 
-                orderDetail od = new orderDetail("數量","類別","規格");
-                orderdetail.add(od);
+//                orderDetail od = new orderDetail("數量","類別","規格");
+//                orderdetail.add(od);
                 for(int i = 0; i<ja.length();i++){
                     jo = ja.getJSONObject(i);
                     quantity[i] = jo.getString("Order_Quantity");
                     type[i] = jo.getString("Order_type");
                     weight[i] = jo.getString("Order_weight");
-                    od = new orderDetail(quantity[i],type[i],weight[i]);
+                    orderDetail od = new orderDetail(quantity[i],type[i],weight[i]);
                     orderdetail.add(od);
                 }
                 orderDetailAdapterList adapter = new orderDetailAdapterList(this,R.layout.adapter_view_layout,orderdetail);

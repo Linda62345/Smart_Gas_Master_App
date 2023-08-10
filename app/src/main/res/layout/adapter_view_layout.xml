@@ -1,51 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
     android:orientation="horizontal"
-    android:gravity="center_horizontal"
-    android:padding="30dp"
-    android:background="@color/white">
-
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:gravity="left"
-        android:text="TextView"
-        android:textColor="#ff757575"
-        android:textSize="24.0sp"
-        android:textStyle="bold"
-        />
+    android:layout_marginBottom="5dp"
+    android:padding="10dp"
+    android:gravity="left"
+    android:background="@drawable/list_back">
 
     <TextView
         android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="left"
+        android:layout_width="139dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:text="TextView"
-        android:layout_marginHorizontal="20dp"
+        android:textAlignment="gravity"
         android:textColor="#ff757575"
-        android:textSize="24.0sp"
-        android:textStyle="bold"/>
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/weight"
+    <GridLayout
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="left"
-        android:text="TextView"
-        android:textColor="#ff757575"
-        android:textSize="24.0sp"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/blank"
+        android:layout_height="wrap_content"
+        android:layout_weight="350"
+        android:layout_marginLeft="15dp"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <TextView
+            android:id="@+id/weightTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="left"
+            android:text="規格: "
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="left"
+            android:text="TextView"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp" />
+
+        <TextView
+            android:id="@+id/qtyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="left"
+            android:text="數量: "
+            android:textColor="#ff757575"
+            android:textSize="24.0sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="left"
+            android:text="TextView"
+            android:textColor="#ff757575"
+            android:textSize="24.0sp" />
+    </GridLayout>
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:gravity="left"
-        android:textColor="#ff757575"
-        android:textSize="24.0sp"
-        android:textStyle="bold"/>
+        android:layout_height="match_parent"
+        android:layout_weight="200"
+        android:layout_gravity="end"
+        android:padding="10dp"
+        android:src="@drawable/baseline_arrow_forward_ios_24" />
+<!--    <TextView-->
+<!--        android:id="@+id/blank"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="10dp"-->
+<!--        android:gravity="left"-->
+<!--        android:textColor="#ff757575"-->
+<!--        android:textSize="24.0sp"-->
+<!--        android:textStyle="bold"/>-->
 
 
 </LinearLayout>
