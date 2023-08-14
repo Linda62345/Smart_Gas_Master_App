@@ -5,8 +5,9 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -32,15 +33,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.smartgasmasterapp.EditPersonalInfo;
 import com.example.smartgasmasterapp.ForgetPassword1;
 import com.example.smartgasmasterapp.Homepage;
-import com.example.smartgasmasterapp.MainActivity;
-import com.example.smartgasmasterapp.OrderList;
 import com.example.smartgasmasterapp.R;
 import com.example.smartgasmasterapp.Register;
-import com.example.smartgasmasterapp.ui.login.LoginViewModel;
-import com.example.smartgasmasterapp.ui.login.LoginViewModelFactory;
 import com.example.smartgasmasterapp.databinding.ActivityLoginBinding;
 
 import org.json.JSONObject;
@@ -74,6 +70,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check login status from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        boolean isLoggedIn = sharedPref.getBoolean("isLoggedIn", false);
+
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -142,13 +145,20 @@ public class LoginActivity extends AppCompatActivity {
                     //登入
                     login();
                     //Exception: android.os.NetworkOnMainThreadException 所以加thread
+
                     Thread thread = new Thread(new Runnable() {
 
                         @Override
                         public void run() {
                             try {
-                                WorkerID();
-                                //Your code goes here
+                                WorkerID(new WorkerIdCallback() {
+                                    @Override
+                                    public void onWorkerIdRetrieved(int workerId) {
+                                        // Here, the Worker_ID has been retrieved successfully
+                                        Worker_ID = workerId;
+
+                                    }
+                                });
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -156,12 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
                     thread.start();
-                    finish();
                 }
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-
+                finish();
             }
         });
 
@@ -204,7 +213,19 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        // Check if there is saved login data, if yes, log in automatically
+        if (hasSavedLoginData()) {
+            SharedPreferences sharedPref1 = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+            String savedEmail = sharedPref1.getString("email", "");
+            String savedPassword = sharedPref1.getString("password", "");
+            username.setText(savedEmail);
+            Password.setText(savedPassword);
+            loginViewModel.login(savedEmail, savedPassword);
+        }
     }
+
+
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
@@ -226,9 +247,14 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     Log.d("res", response);
                     if (response.contains("success")) {
+                        int workerId = Worker_ID;
                         Intent intent = new Intent(LoginActivity.this, Homepage.class);
                         //要把email傳過去
                         intent.putExtra("email",email);
+                        intent.putExtra("password",password);
+                        intent.putExtra("Worker_ID", workerId);
+                        saveLoginData(email, password, workerId);
+                        Log.d("LoginActivity", "Login successful. Worker ID: " + Worker_ID);
                         startActivity(intent);
                         finish();
                     } else if (response.contains("failure")) {
@@ -255,7 +281,12 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-    public void WorkerID() {
+
+    public interface WorkerIdCallback {
+        void onWorkerIdRetrieved(int workerId);
+    }
+
+    public void WorkerID(final WorkerIdCallback callback) {
         if(email==null){
             Log.i("null Worker Id", String.valueOf(Worker_ID));
         }
@@ -289,12 +320,31 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("result", "["+result+"]");
                 JSONObject responseJSON = new JSONObject(result);
                 Worker_ID = responseJSON.getInt("Worker_Id");
+                if (callback != null) {
+                    callback.onWorkerIdRetrieved(Worker_ID);
+                }
                 Log.i("Worker_ID", String.valueOf(Worker_ID));
             } catch (Exception e) {
                 Log.i("Here Exception", e.toString());
             }
         }
     }
+
+    private void saveLoginData(String email, String password, int workerId) {
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.putInt("Worker_ID", workerId); // Save Worker_ID
+        editor.putBoolean("isLoggedIn", true);
+        editor.apply();
+    }
+
+    private boolean hasSavedLoginData() {
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        return sharedPref.contains("email") && sharedPref.contains("password");
+    }
+
     public int getWorkerID(){
         int worker_id = Worker_ID;
         return worker_id;

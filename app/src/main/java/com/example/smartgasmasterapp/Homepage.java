@@ -2,7 +2,9 @@ package com.example.smartgasmasterapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +31,7 @@ public class Homepage extends AppCompatActivity {
     private Button editProfile;
     private Button orderList;
     //private Button scanOrder;
-    private String email;
+    private String email, password ;
     public int Worker_ID;
     public Button logout;
     public TextView name;
@@ -37,21 +39,33 @@ public class Homepage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_homepage);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
+
 
         logout = findViewById(R.id.logout);
         name = findViewById(R.id.changeable_username);
         editProfile = findViewById(R.id.edit_personal_info_button);
         orderList = findViewById(R.id.orderList_page_button);
+
+        // Retrieve extras from intent
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        password = intent.getStringExtra("password");
+        Worker_ID = intent.getIntExtra("Worker_ID",-1);
+        Log.d("Homepage", "Email: " + email + ", Password: " + password + ", Worker ID: " + Worker_ID);
         //scanOrder = findViewById(R.id.open_scanner_button);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Homepage.this,MainActivity.class);
+                clearLoginData();
+                // intent.putExtra("c
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -79,8 +93,9 @@ public class Homepage extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
-        LoginActivity loginActivity = new LoginActivity();
-        Worker_ID = loginActivity.getWorkerID();
+//        LoginActivity loginActivity = new LoginActivity();
+//        Worker_ID = loginActivity.getWorkerID();
+//        Log.i("worker id：" , String.valueOf(Worker_ID));
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -141,5 +156,13 @@ public class Homepage extends AppCompatActivity {
         catch(Exception e){
             Log.i("Worker name",e.toString());
         }
+    }
+
+    private void clearLoginData() {
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("email");
+        editor.remove("password");
+        editor.apply();
     }
 }
