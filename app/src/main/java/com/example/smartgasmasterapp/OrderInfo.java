@@ -224,7 +224,15 @@ public class OrderInfo extends AppCompatActivity {
                 for(int i = 0; i<ja.length();i++){
                     jo = ja.getJSONObject(i);
                     quantity[i] = jo.getString("Order_Quantity");
-                    type[i] = jo.getString("Order_type");
+//                    type[i] = jo.getString("Order_type");
+                    String orderType = jo.getString("Order_type");
+                    if (orderType.equals("tradition")) {
+                        type[i] = "傳統桶";
+                    } else if (orderType.equals("composite")) {
+                        type[i] = "複合桶";
+                    } else {
+                        type[i] = "N/A"; // In case of any other value, just use the original value
+                    }
                     weight[i] = jo.getString("Order_weight");
                     orderDetail od = new orderDetail(quantity[i],type[i],weight[i]);
                     orderdetail.add(od);

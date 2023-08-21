@@ -2,15 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center|top"
-    android:layout_marginTop="30dp"
-    android:layout_marginHorizontal="30dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:layout_marginHorizontal="30dp"
     android:orientation="vertical">
 
     <TextView
@@ -65,7 +64,7 @@
 
     <ListView
         android:id="@+id/Listview"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_marginVertical="20dp"
         android:layout_height="280dp" />
 

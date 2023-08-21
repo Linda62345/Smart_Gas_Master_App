@@ -10,9 +10,10 @@
 
     <TextView
         android:id="@+id/changable_companyName"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
         android:background="@drawable/border"
         android:gravity="center"
         android:text="景美瓦斯行"
@@ -42,7 +43,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="397dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:paddingTop="30dp"
         app:layout_constraintBottom_toTopOf="@+id/confirmOrderButton"
@@ -52,7 +53,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="397dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:orientation="vertical">
 
             <Button
@@ -99,11 +101,10 @@
 
     <Button
         android:id="@+id/confirmOrderButton"
-        android:layout_width="344.9dp"
+        android:layout_width="match_parent"
         android:layout_height="73.1dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginEnd="34dp"
         android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="40dp"
         android:text="確認搶單"
         android:textSize="17sp"
         app:cornerRadius="5dp"
