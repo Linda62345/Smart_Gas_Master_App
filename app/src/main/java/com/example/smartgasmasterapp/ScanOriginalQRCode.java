@@ -37,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -55,6 +56,12 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.zxing.Result;
 
+import com.google.zxing.ResultPoint;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeResult;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.journeyapps.barcodescanner.BarcodeCallback;
 import java.util.concurrent.ExecutionException;
 
 public class ScanOriginalQRCode extends AppCompatActivity {
@@ -67,6 +74,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
     private String qrCode;
     private EditText input_Id;
     public int gas_quantity;
+    private DecoratedBarcodeView barcodeView;
     public static ArrayList<String> Gas_Id_Array = new ArrayList<String>();
 
     @Override
@@ -84,7 +92,8 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
         gas_Id = findViewById(R.id.changableOriginalID);
         input_Id = findViewById(R.id.mannuallyEnterGasCode);
-        previewView = findViewById(R.id.originalScanner);
+        barcodeView = findViewById(R.id.originalScanner);
+        barcodeView.decodeContinuous(callback);
 
         /*next_gas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +151,52 @@ public class ScanOriginalQRCode extends AppCompatActivity {
 
         //ShowDataDetail();
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+        cameraProviderFuture.addListener(() -> {
+            try {
+                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                // bindCameraPreview(cameraProvider);
+            } catch (Exception e) {
+                Toast.makeText(this, "Error starting camera " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, ContextCompat.getMainExecutor(this));
         requestCamera();
 
+    }
+
+    private BarcodeCallback callback = new BarcodeCallback() {
+        public void barcodeResult(BarcodeResult result) {
+            String qrCodeText = result.getText();
+            if (qrCodeText != null) {
+                input_Id.setText(qrCodeText);
+                Log.i("Scanned QR Code", qrCodeText);
+            } else {
+                Log.i("QR Code invallid ", qrCodeText);
+            }
+        }
+
+        @Override
+        public void possibleResultPoints(List<ResultPoint> resultPoints) {
+            // Handle possible result points
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        barcodeView.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        barcodeView.pause();
+    }
+
+    private void startQRCodeScanner() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("Scan a QR code");
+        integrator.setOrientationLocked(true);
+        integrator.initiateScan();
     }
 
     public void sure() {
@@ -177,7 +230,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
             JSONObject responseJSON = new JSONObject(result);
             if (responseJSON.getString("response").contains("failure")) {
                 Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ScanOriginalQRCode.this,GasRegister.class);
+                Intent intent = new Intent(ScanOriginalQRCode.this, GasRegister.class);
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(ScanOriginalQRCode.this, Remain_Gas.class);
@@ -218,54 +271,70 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindCameraPreview(cameraProvider);
+                // bindCameraPreview(cameraProvider);
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(this, "Error starting camera " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void bindCameraPreview(@NonNull ProcessCameraProvider cameraProvider) {
-        previewView.setPreferredImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+    //    private void bindCameraPreview(@NonNull ProcessCameraProvider cameraProvider) {
+//        barcodeView.setPreferredImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+//
+//        Preview preview = new Preview.Builder()
+//                .build();
+//
+//        CameraSelector cameraSelector = new CameraSelector.Builder()
+//                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+//                .build();
+//
+//        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+//
+//        ImageAnalysis imageAnalysis =
+//                new ImageAnalysis.Builder()
+//                        .setTargetResolution(new Size(1280, 720))
+//                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+//                        .build();
+//
+//        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new QRCodeImageAnalyzer(new QRCodeFoundListener() {
+//            @Override
+//            public void onQRCodeFound(String _qrCode) {
+//                qrCode = _qrCode;
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        input_Id.setText(qrCode);
+//                    }
+//                });
+//                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+//            }
+//
+//            @Override
+//            public void qrCodeNotFound() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        order_ID_Text.setText(""); // Clear the EditText when QR code is not found
+//                    }
+//                });
+//            }
+//        }));
+//        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        Preview preview = new Preview.Builder()
-                .build();
+        // Check if the request code matches the ZXing scanner's request code
+        if (requestCode == IntentIntegrator.REQUEST_CODE) {
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null && result.getContents() != null) {
+                String scannedData = result.getContents(); // The scanned QR code data
 
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build();
-
-        preview.setSurfaceProvider(previewView.createSurfaceProvider());
-
-        ImageAnalysis imageAnalysis =
-                new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(1280, 720))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build();
-
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new QRCodeImageAnalyzer(new QRCodeFoundListener() {
-            @Override
-            public void onQRCodeFound(String _qrCode) {
-                qrCode = _qrCode;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        input_Id.setText(qrCode);
-                    }
-                });
-                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+                // Update the EditText with the scanned QR code data
+                input_Id.setText(scannedData);
+                Log.i("Scanned QR Code", scannedData);
             }
-
-            @Override
-            public void qrCodeNotFound() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        order_ID_Text.setText(""); // Clear the EditText when QR code is not found
-                    }
-                });
-            }
-        }));
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+        }
     }
 }

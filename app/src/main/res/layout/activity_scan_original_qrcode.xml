@@ -8,13 +8,14 @@
     android:background="@color/white"
     tools:context=".ScanOriginalQRCode">
 
-        <androidx.camera.view.PreviewView
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
             android:id="@+id/originalScanner"
             android:layout_width="match_parent"
             android:layout_height="272dp"
             android:layout_marginBottom="13dp"
             android:backgroundTint="@android:color/white"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+           tools:ignore="MissingClass" />
 
 
     <ScrollView

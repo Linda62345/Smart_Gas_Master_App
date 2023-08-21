@@ -35,6 +35,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.zxing.ResultPoint;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.journeyapps.barcodescanner.BarcodeCallback;
+import com.journeyapps.barcodescanner.BarcodeResult;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import android.Manifest;
 
@@ -55,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -71,10 +77,9 @@ public class ScanNewQRCode extends AppCompatActivity {
     public EditText input_newGasId;
     private TextView GAS_ID, Initial_Volume, GAS_Type;
     public ArrayList<String> New_Gas_Id_Array;
+    private DecoratedBarcodeView barcodeView;
     public String Customer_Id,qrCode;
     public static String condition,S_condition;
-    public Remain_Gas remainGas;
-    public String sensor_Id,Gas_Weight_Empty,gas_Id1;
 
 
     @Override
@@ -98,22 +103,33 @@ public class ScanNewQRCode extends AppCompatActivity {
         Initial_Volume = findViewById(R.id.changeableNewVolume);
         GAS_Type = findViewById(R.id.GasTypeChoice);
 
-        remainGas = new Remain_Gas();
-        sensor_Id = remainGas.finalSensorId.get(0);
-
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveIot();
                 //Save Gas Order資料
-                //saveNewGas();
+                saveNewGas();
+                //Save 換桶資料: Customer_Gas
+                try {
+                    saveCustomerGasId(scanOriginalQRCode.Gas_Id_Array,New_Gas_Id_Array);
+                }
+                catch (Exception e){
+                    Log.i("Exchange Gas",e.toString());
+                }
                 // Finish the current activity to prevent the user from navigating back to it
                 finish();
             }
         });
 
         New_Gas_Id_Array = new ArrayList<String>();
+        next_gas = findViewById(R.id.next_gas);
+        next_gas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input_newGasId.removeTextChangedListener(textWatcher);
+                input_newGasId.setText("");
+                input_newGasId.addTextChangedListener(textWatcher);
+            }
+        });
 
         input_newGasId.addTextChangedListener(textWatcher);
 
@@ -165,7 +181,7 @@ public class ScanNewQRCode extends AppCompatActivity {
 
     public void GasData(){
         try {
-            gas_Id1 = input_newGasId.getText().toString().trim();
+            String gas_Id1 = input_newGasId.getText().toString().trim();
             if (TextUtils.isEmpty(gas_Id1)) {
                 // Clear the TextViews if the input is empty
                 GAS_ID.setText("");
@@ -201,7 +217,8 @@ public class ScanNewQRCode extends AppCompatActivity {
                 JSONObject responseJSON = new JSONObject(result);
                 if (responseJSON.getString("response").contains("failure")) {
                     Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ScanNewQRCode.this,NewGasRegister.class);
+                    Intent intent = new Intent(ScanNewQRCode.this,GasRegister.class);
+
                     startActivity(intent);
                 } else {
                     String S_Gas_ID, S_initial_volume, S_Gas_Type;
@@ -210,9 +227,13 @@ public class ScanNewQRCode extends AppCompatActivity {
                     S_initial_volume = responseJSON.getString("GAS_Volume");
                     Initial_Volume.setText(S_initial_volume);
                     S_Gas_Type = responseJSON.getString("GAS_Type");
-                    GAS_Type.setText(S_Gas_Type);
-                    Gas_Weight_Empty = responseJSON.getString("GAS_Weight_Empty");
-                    Log.i("gas_weight",Gas_Weight_Empty);
+                    //GAS_Type.setText(S_Gas_Type);
+                    if ("0".equals(S_Gas_Type)) {
+                        GAS_Type.setText("傳統鋼瓶");
+                    } else {
+                        GAS_Type.setText("複合材料");
+                    }
+
 
 
                     if (input_newGasId.getText().toString() != null && input_newGasId.getText().toString() != "") {
@@ -223,43 +244,6 @@ public class ScanNewQRCode extends AppCompatActivity {
             } catch(Exception e){
                 Log.i("Gas_Data Exception", e.toString());
             }
-    }
-
-    public void saveIot(){
-        try {
-            String URL = "http://54.199.33.241/test/scanNewGas_iot.php";
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("gas register response", response);
-                    if (response.contains("success")) {
-                        Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
-                        startActivity(intent);
-                    }  else {
-                        Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
-                        startActivity(intent);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> data = new HashMap<>();
-                    data.put("gasId", gas_Id1);
-                    data.put("gasWeightEmpty", Gas_Weight_Empty);
-                    data.put("sensorId",sensor_Id);
-                    return data;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
-        } catch (Exception e) {
-            Log.i("save 瓦斯桶 Exception", e.toString());
-        }
     }
 
     public void saveNewGas(){
@@ -322,7 +306,298 @@ public class ScanNewQRCode extends AppCompatActivity {
         void onError(String error);
     }
 
+    public void action(String sql, final ActionCallback callback) {
+        condition = ""; // Initialize condition
 
+        String url = "http://54.199.33.241/test/Save_Array_GasID.php";
+        try {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.contains("success")) {
+                        condition = "success";
+                        callback.onSuccess(condition);
+                        Log.i("action response", response.toString());
+                    } else {
+                        condition = "failure";
+                        callback.onSuccess(condition);
+                        Log.i("action response", response.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onError(error.toString().trim());
+                    Log.i("gas_quantity error", error.toString().trim());
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> data = new HashMap<>();
+                    data.put("sql", sql);
+                    return data;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            Log.i("換桶customer gas error", e.toString());
+            callback.onError(e.toString());
+        }
+
+        // No need to return condition
+    }
+
+    public void saveCustomerGasId(ArrayList<String> OriginalID, ArrayList<String> NewID) {
+        S_condition = "failure";
+
+        try {
+            Log.i("NewID.size()", String.valueOf(NewID.size()));
+            Log.i("OriginalID.size()", String.valueOf(OriginalID.size()));
+            if (NewID.size() == OriginalID.size()) {
+                for (int i = 0; i < NewID.size(); i++) {
+                    String update_sql = "update customer_gas set customer_gas.Gas_Id = " + NewID.get(i) + " where customer_gas.Gas_Id = "
+                            + OriginalID.get(i) + " and Customer_Id = " + Customer_Id;
+
+                    final String finalNewId = NewID.get(i);
+                    ActionCallback updateCallback = new ActionCallback() {
+                        @Override
+                        public void onSuccess(String condition) {
+                            S_condition = condition;
+                            Log.i("update action", S_condition);
+                            Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                            startActivity(intent);
+
+                            if (S_condition.contains("failure")) {
+                                String insert_sql = "insert into customer_gas(`Gas_Id`, `Customer_Id`) values (" + finalNewId + "," + Customer_Id + ")";
+                                action(insert_sql, new ActionCallback() {
+                                    @Override
+                                    public void onSuccess(String condition) {
+                                        S_condition = condition;
+                                        Log.i("insert action", S_condition);
+                                        if(S_condition.contains("failure")){
+                                            Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                            startActivity(intent);
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        // Handle error condition
+                                        // You may want to update S_condition accordingly
+                                        Log.i("insert action error", error);
+                                        Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            // Handle error condition
+                            // You may want to update S_condition accordingly
+                            Log.i("update action error", error);
+                            Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                            startActivity(intent);
+                        }
+                    };
+
+                    action(update_sql, updateCallback);
+
+                    if (S_condition.contains("success")) {
+                        S_condition = "success";
+                        Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                        startActivity(intent);
+                    }
+                }
+            } else if (NewID.size() > OriginalID.size()) {
+                for (int i = 0; i < NewID.size(); i++) {
+                    if (i < OriginalID.size()) {
+                        String update_sql = "update customer_gas set customer_gas.Gas_Id = " + NewID.get(i) + " where customer_gas.Gas_Id = "
+                                + OriginalID.get(i) + " and Customer_Id = " + Customer_Id;
+
+                        final String finalNewId = NewID.get(i);
+                        ActionCallback updateCallback = new ActionCallback() {
+                            @Override
+                            public void onSuccess(String condition) {
+                                S_condition = condition;
+                                Log.i("update action", S_condition);
+                                Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                startActivity(intent);
+
+                                if (S_condition.contains("failure")) {
+                                    String insert_sql = "insert into customer_gas(`Gas_Id`, `Customer_Id`) values (" + finalNewId + "," + Customer_Id + ")";
+                                    action(insert_sql, new ActionCallback() {
+                                        @Override
+                                        public void onSuccess(String condition) {
+                                            S_condition = condition;
+                                            Log.i("insert action", S_condition);
+                                            if(S_condition.contains("failure")){
+                                                Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                                startActivity(intent);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(String error) {
+                                            // Handle error condition
+                                            // You may want to update S_condition accordingly
+                                            Log.i("insert action error", error);
+                                            Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                // Handle error condition
+                                // You may want to update S_condition accordingly
+                                Log.i("update action error", error);
+                                Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                startActivity(intent);
+                            }
+                        };
+
+                        action(update_sql, updateCallback);
+                    } else {
+                        String insert_sql = "insert into customer_gas(`Gas_Id`, `Customer_Id`) values (" + NewID.get(i) + "," + Customer_Id + ")";
+
+                        ActionCallback insertCallback = new ActionCallback() {
+                            @Override
+                            public void onSuccess(String condition) {
+                                S_condition = condition;
+                                Log.i("insert action", S_condition);
+                                if(condition.contains("failure")){
+                                    Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                    startActivity(intent);
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                // Handle error condition
+                                // You may want to update S_condition accordingly
+                                Log.i("insert action error", error);
+                                Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                startActivity(intent);
+                            }
+                        };
+
+                        action(insert_sql, insertCallback);
+                    }
+                }
+            } else {
+                for (int i = 0; i < OriginalID.size(); i++) {
+                    if (i < NewID.size()) {
+                        String update_sql = "update customer_gas set customer_gas.Gas_Id = " + NewID.get(i) + " where customer_gas.Gas_Id = "
+                                + OriginalID.get(i) + " and Customer_Id = " + Customer_Id;
+
+                        final String finalNewId = NewID.get(i);
+                        ActionCallback updateCallback = new ActionCallback() {
+                            @Override
+                            public void onSuccess(String condition) {
+                                S_condition = condition;
+                                Log.i("update action", S_condition);
+                                if(S_condition.contains("success")){
+                                    Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                    startActivity(intent);
+                                }
+
+                                if (S_condition.contains("failure")) {
+                                    String insert_sql = "insert into customer_gas(`Gas_Id`, `Customer_Id`) values (" + finalNewId + "," + Customer_Id + ")";
+                                    action(insert_sql, new ActionCallback() {
+                                        @Override
+                                        public void onSuccess(String condition) {
+                                            S_condition = condition;
+                                            Log.i("insert action", S_condition);
+                                            if(S_condition.contains("failure")){
+                                                Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                                startActivity(intent);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(String error) {
+                                            // Handle error condition
+                                            // You may want to update S_condition accordingly
+                                            Log.i("insert action error", error);
+                                            Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                // Handle error condition
+                                // You may want to update S_condition accordingly
+                                Log.i("update action error", error);
+                                Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                startActivity(intent);
+                            }
+                        };
+
+                        action(update_sql, updateCallback);
+                    } else {
+                        String delete_sql = "DELETE FROM `customer_gas` WHERE Gas_Id = " + OriginalID.get(i);
+
+                        ActionCallback deleteCallback = new ActionCallback() {
+                            @Override
+                            public void onSuccess(String condition) {
+                                S_condition = condition;
+                                Log.i("delete action", S_condition);
+                                if(S_condition.contains("failure")){
+                                    Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(ScanNewQRCode.this, ecchangeSucced.class);
+                                    startActivity(intent);
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                // Handle error condition
+                                // You may want to update S_condition accordingly
+                                Log.i("delete action error", error);
+                                Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+                                startActivity(intent);
+                            }
+                        };
+
+                        action(delete_sql, deleteCallback);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.i("saveCustomerGasId ex", e.toString());
+            Intent intent = new Intent(ScanNewQRCode.this, ExchangeScanFailed.class);
+            startActivity(intent);
+        }
+
+    }
 
 
     //scanner
@@ -354,56 +629,96 @@ public class ScanNewQRCode extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindCameraPreview(cameraProvider);
+               // bindCameraPreview(cameraProvider);
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(this, "Error starting camera " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void bindCameraPreview(@NonNull ProcessCameraProvider cameraProvider) {
-        previewView.setPreferredImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+    private BarcodeCallback callback = new BarcodeCallback() {
+        @Override
+        public void barcodeResult(BarcodeResult result) {
 
-        Preview preview = new Preview.Builder()
-                .build();
 
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build();
-
-        preview.setSurfaceProvider(previewView.createSurfaceProvider());
-
-        ImageAnalysis imageAnalysis =
-                new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(1280, 720))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build();
-
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new QRCodeImageAnalyzer(new QRCodeFoundListener() {
-            @Override
-            public void onQRCodeFound(String _qrCode) {
-                qrCode = _qrCode;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        input_newGasId.setText(qrCode);
-                    }
-                });
-                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+            String qrCodeText = result.getText();
+            if (qrCodeText != null && qrCodeText.length() == 15) {
+                input_newGasId.setText(qrCodeText);
+                Log.i("Scanned QR Code", qrCodeText);
+            } else {
+                Log.i("Scanned QR Code length invallid ", qrCodeText);
             }
+        }
 
-            @Override
-            public void qrCodeNotFound() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        order_ID_Text.setText(""); // Clear the EditText when QR code is not found
-                    }
-                });
-            }
-        }));
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageAnalysis, preview);
+        @Override
+        public void possibleResultPoints(List<ResultPoint> resultPoints) {
+            // Handle possible result points
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        barcodeView.resume();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        barcodeView.pause();
+    }
+
+    private void startQRCodeScanner() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("Scan a QR code");
+        integrator.setOrientationLocked(true);
+        integrator.initiateScan();
+    }
+
+
+//    private void bindCameraPreview(@NonNull ProcessCameraProvider cameraProvider) {
+//        previewView.setPreferredImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+//
+//        Preview preview = new Preview.Builder()
+//                .build();
+//
+//        CameraSelector cameraSelector = new CameraSelector.Builder()
+//                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+//                .build();
+//
+//        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+//
+//        ImageAnalysis imageAnalysis =
+//                new ImageAnalysis.Builder()
+//                        .setTargetResolution(new Size(1280, 720))
+//                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+//                        .build();
+//
+//        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new QRCodeImageAnalyzer(new QRCodeFoundListener() {
+//            @Override
+//            public void onQRCodeFound(String _qrCode) {
+//                qrCode = _qrCode;
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        input_newGasId.setText(qrCode);
+//                    }
+//                });
+//                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
+//            }
+//
+//            @Override
+//            public void qrCodeNotFound() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        order_ID_Text.setText(""); // Clear the EditText when QR code is not found
+//                    }
+//                });
+//            }
+//        }));
+//        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageAnalysis, preview);
+//    }
 
 
 }

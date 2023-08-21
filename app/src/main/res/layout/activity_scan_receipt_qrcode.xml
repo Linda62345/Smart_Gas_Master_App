@@ -8,7 +8,7 @@
     android:background="@color/white">
 
 
-    <androidx.camera.view.PreviewView
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/receiptScanner"
         android:layout_width="match_parent"
         android:layout_height="272dp"
