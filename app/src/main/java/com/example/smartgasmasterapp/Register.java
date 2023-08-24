@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,6 +74,37 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         etPassword = findViewById(R.id.register_pass_input);
         etReenterPassword = findViewById(R.id.register_pass_con_input);
         name = email = password = reenterPassword = address = phone = houseTel = "";
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updatePasswordError();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        etReenterPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updatePasswordError();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
         register = findViewById(R.id.register_next_button);
         tvStatus = findViewById(R.id.tvStatus);
 
@@ -199,68 +232,89 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     }
 
     public void save(View view) {
-        //這裡要加個警告 姓名欄一定要填
-        if (etMale.isChecked()) {
-            gender = "Male";
-        } else {
-            gender = "Female";
-        }
-        String city = etCity.getSelectedItem().toString();
-        String area = etArea.getSelectedItem().toString();
-        String companyName = etCompanyName.getSelectedItem().toString();
-        company = companyName;
-        address = city + area + etAddress.getText().toString().trim();
-        name = etName.getText().toString().trim();
-        email = etEmail.getText().toString().trim();
-        phone = etPhone.getText().toString().trim();
-        houseTel = etHouseTel.getText().toString().trim();
-        password = etPassword.getText().toString().trim();
-        reenterPassword = etReenterPassword.getText().toString().trim();
-        if (!password.equals(reenterPassword)) {
-            Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
-        } else if (!etMale.isChecked() && !etFemale.isChecked()) {
-            Toast.makeText(this, "Gender column must selected one of them.", Toast.LENGTH_SHORT).show();
-        } else if (!name.equals("") && !email.equals("") && !password.equals("")) {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.contains("success")) {
-                        Intent intent = new Intent(Register.this, LoginActivity.class);
-                        startActivity(intent);
-                        tvStatus.setText("Successfully registered.");
-                        register.setClickable(false);
-                    } else if (response.contains("failure")) {
-                        tvStatus.setText("Something went wrong!");
+        if (etPassword.getError() == null && etReenterPassword.getError() == null) {
+            //這裡要加個警告 姓名欄一定要填
+            if (etMale.isChecked()) {
+                gender = "Male";
+            } else {
+                gender = "Female";
+            }
+            String city = etCity.getSelectedItem().toString();
+            String area = etArea.getSelectedItem().toString();
+            String companyName = etCompanyName.getSelectedItem().toString();
+            company = companyName;
+            address = city + area + etAddress.getText().toString().trim();
+            name = etName.getText().toString().trim();
+            email = etEmail.getText().toString().trim();
+            phone = etPhone.getText().toString().trim();
+            houseTel = etHouseTel.getText().toString().trim();
+            password = etPassword.getText().toString().trim();
+            reenterPassword = etReenterPassword.getText().toString().trim();
+            if (!password.equals(reenterPassword)) {
+                Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
+            } else if (!etMale.isChecked() && !etFemale.isChecked()) {
+                Toast.makeText(this, "Gender column must selected one of them.", Toast.LENGTH_SHORT).show();
+            } else if (!name.equals("") && !email.equals("") && !password.equals("")) {
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("success")) {
+                            Intent intent = new Intent(Register.this, LoginActivity.class);
+                            startActivity(intent);
+                            tvStatus.setText("Successfully registered.");
+                            register.setClickable(false);
+                        } else if (response.equals("failure")) {
+                            tvStatus.setText("Something went wrong!");
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> data = new HashMap<>();
-                    data.put("name", name);
-                    data.put("sex", gender);
-                    data.put("phone", phone);
-                    data.put("houseTel", houseTel);
-                    data.put("email", email);
-                    data.put("password", password);
-                    data.put("address", address);
-                    data.put("company", company);
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> data = new HashMap<>();
+                        data.put("name", name);
+                        data.put("sex", gender);
+                        data.put("phone", phone);
+                        data.put("houseTel", houseTel);
+                        data.put("email", email);
+                        data.put("password", password);
+                        data.put("address", address);
+                        data.put("company", company);
 
-                    return data;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
+                        return data;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
+            } else {
+                Toast.makeText(this, "Please fill all the field", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "Please fill all the field", Toast.LENGTH_SHORT).show();
+            // Passwords are invalid, show a message or handle as needed
+            Toast.makeText(this, "Password must be at least 5 characters", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void updatePasswordError() {
+        String password = etPassword.getText().toString().trim();
+        String reenterPassword = etReenterPassword.getText().toString().trim();
+
+        if (password.length() < 5) {
+            etPassword.setError("Password must be at least 5 characters");
+        } else {
+            etPassword.setError(null); // Clear the error
+        }
+
+        if (!password.equals(reenterPassword)) {
+            etReenterPassword.setError("Passwords do not match");
+        } else {
+            etReenterPassword.setError(null); // Clear the error
+        }
+    }
 
 }
