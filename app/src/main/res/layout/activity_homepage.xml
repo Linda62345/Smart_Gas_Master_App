@@ -1,130 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Homepage"
+    android:paddingHorizontal="20dp"
     android:background="@color/white">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/grey_circle"
+        android:padding="10dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@+id/orderList_page_button"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/changeable_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:text="@string/greetings"
+        android:textColor="#ff000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/changeable_username"
+        app:layout_constraintEnd_toEndOf="@+id/changeable_username"
+        app:layout_constraintStart_toStartOf="@+id/changeable_username" />
+
+    <TextView
+        android:id="@+id/changeable_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="80dp"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:text=""
+        android:textColor="#ff000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/edit_personal_info_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/oval_button"
+        android:maxLines="1"
+        android:paddingHorizontal="20dp"
+        android:text="@string/edit_personal"
+        android:textColor="#ff3272d7"
+        app:layout_constraintEnd_toStartOf="@+id/logout"
+        app:layout_constraintStart_toStartOf="@+id/changeable_username"
+        app:layout_constraintTop_toBottomOf="@+id/changeable_username" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/oval_button"
+        android:padding="12dp"
+        android:maxLines="1"
+        android:text="登出"
+        android:textColor="#ff3272d7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_personal_info_button"
+        app:layout_constraintTop_toTopOf="@+id/edit_personal_info_button" />
+
+    <Button
+        android:id="@+id/orderList_page_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="142.0dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginBottom="200dp"
+        android:background="#ff3272d7"
+        android:foregroundGravity="center"
+        android:text="@string/today_order"
+        android:textColor="#ffffffff"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_personal_info_button" />
 
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="21.1dp"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/grey_circle"
-                android:minWidth="130dp"
-                android:minHeight="130dp"
-                android:padding="10dp"
-                android:src="@drawable/baseline_person_24" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/greetings"
-                    android:textColor="#ff000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/changeable_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:textColor="#ff000000"
-                    android:textSize="38sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/edit_personal_info_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:paddingHorizontal="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="right"
-                        android:text="@string/edit_personal"
-                        android:textColor="#ff3272d7"
-                        app:cornerRadius="5dp"
-                        android:background="@drawable/oval_button"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/logout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:paddingHorizontal="20dp"
-                        android:background="@drawable/oval_button"
-                        android:text="登出"
-                        android:textColor="#ff3272d7"
-                        app:cornerRadius="14dp" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="142.0dp"
-            android:foregroundGravity="center"
-            android:layout_gravity="center"
-            android:text="@string/today_order"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:background="#ff3272d7"
-            android:textColor="#ffffffff"
-            android:id="@+id/orderList_page_button"
-            />
-
-
-        <!--
-        <Button
-            android:layout_width="328.9dp"
-            android:layout_height="142.5dp"
-            android:foregroundGravity="center"
-            android:gravity="center"
-            android:layout_marginLeft="38.0dp"
-            android:text="@string/open_scanner"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:background="#ff3272d7"
-            android:textColor="#ffffffff"
-            android:id="@+id/open_scanner_button"
-            android:layout_marginTop="14.3dp"
-            />
-            -->
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
