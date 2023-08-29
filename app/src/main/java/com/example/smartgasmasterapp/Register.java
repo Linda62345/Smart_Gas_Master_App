@@ -34,7 +34,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Register extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Button register;
@@ -42,7 +41,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     private EditText etName, etEmail, etAddress, etPhone, etHouseTel, etPassword, etReenterPassword;
     private RadioButton etMale, etFemale, radioButton;
     private TextView tvStatus;
-    private Spinner etCity, etArea, etCompanyName;
+    private Spinner etCity, etDist, etCompanyName;
     ArrayList<String> countryList = new ArrayList<>();
     ArrayList<String> cityList = new ArrayList<>();
     ArrayAdapter<String> countryAdapter;
@@ -65,8 +64,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         etName = findViewById(R.id.register_name_input);
         etMale = findViewById(R.id.radioButton_male);
         etFemale = findViewById(R.id.radioButton_female);
-        etCity = findViewById(R.id.spinner_1);
-        etArea = findViewById(R.id.spinner_2);
+        etCity = findViewById(R.id.citySpinner);
+        etDist = findViewById(R.id.districtSpinner);
         etAddress = findViewById(R.id.register_addr_input);
         etPhone = findViewById(R.id.register_phone_input);
         etHouseTel = findViewById(R.id.register_housephone_input);
@@ -179,7 +178,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(adapterView.getId() == R.id.spinner_1){
+        if(adapterView.getId() == R.id.citySpinner){
             cityList.clear();
             String selectedCountry = adapterView.getSelectedItem().toString();
             String url = "http://54.199.33.241/test/city.php?country_name="+selectedCountry;
@@ -197,7 +196,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                             cityAdapter = new ArrayAdapter<>(Register.this,
                                     android.R.layout.simple_spinner_item, cityList);
                             cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            etArea.setAdapter(cityAdapter);
+                            etDist.setAdapter(cityAdapter);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -240,7 +239,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 gender = "Female";
             }
             String city = etCity.getSelectedItem().toString();
-            String area = etArea.getSelectedItem().toString();
+            String area = etDist.getSelectedItem().toString();
             String companyName = etCompanyName.getSelectedItem().toString();
             company = companyName;
             address = city + area + etAddress.getText().toString().trim();
