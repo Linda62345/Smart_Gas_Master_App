@@ -1,109 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".Register">
+    tools:context=".Register"
+    android:background="@color/white">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:orientation="vertical">
+
 
         <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
+            android:id="@+id/register_name"
             android:text="@string/name"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_name"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="40dp"
+            android:layout_gravity="center"
             android:textStyle="bold"/>
+
         <EditText
-            android:layout_width="300dp"
+            android:id="@+id/register_name_input"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:minWidth="25dp"
             android:minHeight="25dp"
             android:autofillHints="@string/name"
             android:hint="@string/enter_name"
+            android:layout_marginTop="5dp"
             android:textColorHint="#ff757575"
             android:inputType="textPersonName"
-            android:id="@+id/register_name_input"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="40dp" />
+            android:layout_gravity="center" />
+
         <RadioGroup
+            android:id = "@+id/radioGroup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id = "@+id/radioGroup">
+            android:layout_height="wrap_content">
             <RadioButton
+                android:id="@+id/radioButton_male"
                 android:text="@string/male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radioButton_male"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="90dp"
-                android:textStyle="bold"
-                android:onClick="checkButton"
-                android:checked="false"/>
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
 
             <RadioButton
                 android:id="@+id/radioButton_female"
+                android:text="@string/female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="-45dp"
-                android:text="@string/female"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="-49dp"
                 android:textStyle="bold" />
-
         </RadioGroup>
+
         <TextView
+            android:id="@+id/register_addr"
             android:text="@string/address"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_addr"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
             android:textStyle="bold"/>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2">
 
-        <Spinner
-            android:id="@+id/spinner_1"
-            android:contentDescription="city"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="170dp"
-            android:backgroundTint="#ffd5d5d5"
-            android:padding="5dp" />
+            <Spinner
+                android:id="@+id/citySpinner"
+                android:contentDescription="city"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#ffd5d5d5"
+                android:padding="5dp" />
 
-        <Spinner
-            android:id="@+id/company"
-            android:contentDescription="Company"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="290dp"
-            android:layout_marginTop="170dp"
-            android:backgroundTint="#ffd5d5d5"
-            android:padding="5dp"
-            />
+            <Spinner
+                android:id="@+id/districtSpinner"
+                android:contentDescription="district"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#ffd5d5d5"
+                android:padding="5dp" />
 
-        <Spinner
-            android:id="@+id/spinner_2"
-            android:contentDescription="City"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="165dp"
-            android:layout_marginTop="170dp"
-            android:backgroundTint="#ffd5d5d5"
-            android:padding="5dp" />
+
+        </GridLayout>
+
 
         <EditText
             android:id="@+id/register_addr_input"
@@ -111,154 +104,179 @@
             android:hint="@string/enter_addr"
             android:textColorHint="#ff757575"
             android:inputType="textPostalAddress"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="210dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:minWidth="25dp"
             android:minHeight="25dp" />
 
         <TextView
+            android:id="@+id/companyTitle"
+            android:text="工作場所"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ff000000"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/company"
+            android:contentDescription="Company"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#ffd5d5d5"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/register_phone"
             android:text="@string/phone_string"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_phone"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="260dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:textStyle="bold"/>
 
         <EditText
-            android:layout_width="300dp"
-            android:layout_height="48dp"
             android:id="@+id/register_phone_input"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:autofillHints="@string/phone_string"
             android:hint="@string/enter_phone_no"
             android:textColorHint="#ff757575"
+            android:layout_marginTop="5dp"
             android:inputType="phone"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="280dp"
+            android:layout_gravity="center"
             />
 
         <TextView
+            android:id="@+id/register_housephone"
             android:text="@string/house_phone"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_housephone"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="330dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:textStyle="bold"/>
 
         <EditText
-            android:inputType="phone"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
             android:id="@+id/register_housephone_input"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="350dp"
-            android:autofillHints="室內電話號碼"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:autofillHints="@string/house_phone"
             android:hint="@string/enter_housePhone"
             android:textColorHint="#ff757575"/>
 
         <TextView
+            android:id="@+id/register_email"
             android:text="@string/prompt_email"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_email"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="400dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:textStyle="bold"/>
 
         <EditText
-            android:layout_width="300dp"
+            android:id="@+id/register_email_input"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:minWidth="25dp"
             android:minHeight="25dp"
-            android:id="@+id/register_email_input"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="420dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:autofillHints="@string/prompt_email"
             android:hint="@string/enter_email"
             android:textColorHint="#ff757575"
             android:inputType="textEmailAddress"/>
 
         <TextView
+            android:id="@+id/register_pass"
             android:text="密碼"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_pass"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="470dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:textStyle="bold"/>
 
         <EditText
-            android:layout_width="300dp"
+            android:id="@+id/register_pass_input"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:minWidth="25dp"
             android:minHeight="25dp"
-            android:id="@+id/register_pass_input"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="490dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:autofillHints="@string/prompt_password"
             android:hint="@string/enter_password"
             android:textColorHint="#ff757575"
             android:inputType="textPassword"/>
 
         <TextView
+            android:id="@+id/register_pass_con"
             android:text="@string/prompt_confirm_password"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
-            android:id="@+id/register_pass_con"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="540dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:textStyle="bold" />
 
         <EditText
-            android:layout_width="300dp"
-            android:layout_height="49dp"
-            android:minWidth="25dp"
-            android:minHeight="25dp"
             android:id="@+id/register_pass_con_input"
-            android:layout_marginStart="47.4dp"
-            android:layout_marginTop="560dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:autofillHints="@string/prompt_password"
             android:hint="@string/enter_confirm_pass"
             android:textColorHint="#ff757575"
             android:inputType="textPassword"
-            />
+            android:minWidth="25dp"
+            android:minHeight="25dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
         <CheckBox
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/terms_cons"
             android:textStyle="bold"
-            android:layout_marginTop="610dp"
-            android:layout_marginStart="47.4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             />
 
 
         <Button
-            android:text="@string/next_string"
+            android:id="@+id/register_next_button"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:layout_marginStart="240dp"
-            android:id="@+id/register_next_button"
-            android:layout_marginTop="605dp"
-            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
             android:backgroundTint="#ff3272d7"
+            android:onClick="save"
+            android:text="@string/next_string"
             android:textColor="#ffffffff"
-            android:onClick="save"/>
+            android:textStyle="bold" />
 
-    </RelativeLayout>
-
+    </LinearLayout>
 </ScrollView>
