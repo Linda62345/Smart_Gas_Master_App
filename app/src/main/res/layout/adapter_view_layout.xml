@@ -11,14 +11,15 @@
 
     <TextView
         android:id="@+id/type"
-        android:layout_width="139dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:text="TextView"
         android:textAlignment="gravity"
         android:textColor="#ff757575"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <GridLayout
         android:layout_width="wrap_content"

@@ -24,7 +24,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class Homepage extends AppCompatActivity {
 
@@ -110,7 +114,11 @@ public class Homepage extends AppCompatActivity {
 
         thread.start();
 
-
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Taipei");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(timeZone);
+        String currentDateTimeString = dateFormat.format(new Date());
+        Log.i("current home time",currentDateTimeString);
     }
     public void WorkerName(){
         try{

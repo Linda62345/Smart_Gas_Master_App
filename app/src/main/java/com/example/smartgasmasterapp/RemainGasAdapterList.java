@@ -40,6 +40,7 @@ public class RemainGasAdapterList extends ArrayAdapter<String> {
                     remain_gas.remainGas.remove(position);
                     remain_gas.remainGasVolumnList.remove(position);
                     remain_gas.finalSensorId.remove(position);
+                    remain_gas.sensorTime.remove(position);
                     notifyDataSetChanged();
                 }
             }

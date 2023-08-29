@@ -17,6 +17,7 @@
     <string name="gas_empty_weight">輸入瓦斯桶空桶重</string>
     <string name="input_gas_empty_weight">請輸入瓦斯桶空桶重</string>
     <string name="confirm_gas_weight_empty">確認空桶重</string>
+    <string name="complete_the_process">完成換桶流程</string>
 
     <string name="action_settings">Settings</string>
     <string-array name="address_dropdown">
@@ -80,7 +81,7 @@
     <string name="scanNewString">掃描新瓦斯桶QrCode</string>
     <string name="scanReceiptString">掃描明細的QrCode</string>
     <string name="scanIDString">掃描客戶 ID</string>
-    <string name="confirmString">確認</string>
+    <string name="confirmString">確認完成</string>
     <string name="gasIDString">瓦斯桶 ID :  </string>
     <string name="newGas">新 瓦斯桶</string>
     <string name="enterReceiptCode">輸入訂單編號</string>
@@ -106,5 +107,7 @@
 
     <string name="takeOrderTitle">搶單</string>
     <string name="timeBuy">訂購時間 :</string>
+
+    <string name="confirmExchange">確認所有換桶完成</string>
 
 </resources>

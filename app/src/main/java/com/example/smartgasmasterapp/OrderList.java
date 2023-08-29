@@ -30,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class OrderList extends AppCompatActivity {
@@ -41,6 +42,8 @@ public class OrderList extends AppCompatActivity {
     String line,result = "";
     String[] data,order_Id;
     public static String static_order_id;
+    //為了記錄這筆訂單有哪些sensor_Id 來更新資料庫中iot的原桶重Gas_Original_Weight
+    public static ArrayList<String> sensor_Id_Array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,9 @@ public class OrderList extends AppCompatActivity {
         setContentView(R.layout.activity_order_list);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        sensor_Id_Array = new ArrayList<>();
+        sensor_Id_Array.clear();
 
         LoginActivity loginActivity = new LoginActivity();
         Worker_Id = loginActivity.getWorkerID();

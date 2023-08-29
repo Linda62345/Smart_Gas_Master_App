@@ -2,6 +2,7 @@ package com.example.smartgasmasterapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -46,8 +47,9 @@ public class Remain_Gas extends AppCompatActivity {
     public EditText RemainInput;
     String[] data;
     public static ArrayList<String> remainGas;
-    public static ArrayList<Integer> remainGasVolumnList;
+    public static ArrayList<Float> remainGasVolumnList;
     public static ArrayList<String> finalSensorId;
+    public static ArrayList<String> sensorTime;
     public ListView listView;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +65,9 @@ public class Remain_Gas extends AppCompatActivity {
         OrderList orderList = new OrderList();
         order_Id = orderList.static_order_id;
         remainGas = new ArrayList<String>();
-        remainGasVolumnList = new ArrayList<Integer>();
+        remainGasVolumnList = new ArrayList<Float>();
         finalSensorId = new ArrayList<String>();
+        sensorTime = new ArrayList<String>();
 
         listView = findViewById(R.id.Listview);
 
@@ -73,10 +76,38 @@ public class Remain_Gas extends AppCompatActivity {
             public void onClick(View view) {
                 if (remainGasVolumnList.size() == 1 && finalSensorId.size()==1) {
                     for (int i = 0; i < remainGasVolumnList.size(); i++) {
-                        total_volume += remainGasVolumnList.get(i);
+                        try{
+                            total_volume += remainGasVolumnList.get(i);
+                            TimeZone timeZone = TimeZone.getTimeZone("Asia/Taipei");
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            dateFormat.setTimeZone(timeZone);
+                            String currentDateTimeString = dateFormat.format(new Date());
+
+                            Date currentDateTime = dateFormat.parse(currentDateTimeString);
+                            Date sensorDateTime = dateFormat.parse(sensorTime.get(0)); // Assuming sensorTime is a DateFormat
+                            long timeDifferenceMillis = Math.abs(currentDateTime.getTime() - sensorDateTime.getTime());
+//
+//                            // Convert the time difference to minutes
+                            long timeDifferenceMinutes = timeDifferenceMillis / (60 * 1000);
+
+                            Log.i("current Time", currentDateTimeString);
+                            Log.i("sensor Time",sensorTime.get(0));
+                            Log.i("timeDifference", String.valueOf(timeDifferenceMinutes));
+//
+//                            // Compare the time difference with 30 minutes
+                            if (timeDifferenceMinutes <= 30) {
+                                total_volume += remainGasVolumnList.get(i);
+                                Log.i("volume", String.valueOf(total_volume));
+                                SaveVolume();
+                            }else{
+                                Toast.makeText(Remain_Gas.this, "請先更新感應器重量", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch (Exception e){
+                            Log.i("total volume exception",e.toString());
+                        }
+
                     }
-                    Log.i("volume", String.valueOf(total_volume));
-                    SaveVolume();
                 }
                 else{
                     Toast.makeText(Remain_Gas.this, "僅留一個感應器, 以便做殘氣計算", Toast.LENGTH_SHORT).show();
@@ -113,15 +144,19 @@ public class Remain_Gas extends AppCompatActivity {
                                 for (int i = 0; i < ja.length(); i++) {
                                     jo = ja.getJSONObject(i);
                                     String sensorWeight = jo.getString("SENSOR_Weight");
+                                    String time = jo.getString("SENSOR_Time");
+
                                     Log.i("sensorweight", sensorWeight);
-                                    if (sensorWeight != null) {
-                                        remainGasVolumnList.add(Integer.parseInt(sensorWeight));
+                                    if (sensorWeight != null && time != null) {
+                                        remainGasVolumnList.add(Float.parseFloat(sensorWeight));
                                         remainGas.add("感應器: " + jo.getString("SENSOR_Id") + "\n" + sensorWeight + " 公斤");
                                         finalSensorId.add(jo.getString("SENSOR_Id"));
+                                        sensorTime.add(jo.getString("SENSOR_Time"));
                                     } else {
-                                        remainGasVolumnList.add(0); // Or any other default value
+                                        remainGasVolumnList.add(0.0F); // Or any other default value
                                         remainGas.add("感應器: " + jo.getString("SENSOR_Id") + "\n" + "N/A");
                                         finalSensorId.add(jo.getString("SENSOR_Id"));
+                                        sensorTime.add("0");
                                     }
                                 }
                                 Log.i("SENSOR_Weight size", String.valueOf(remainGas.size()));
