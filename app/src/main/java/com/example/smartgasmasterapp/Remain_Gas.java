@@ -77,7 +77,6 @@ public class Remain_Gas extends AppCompatActivity {
                 if (remainGasVolumnList.size() == 1 && finalSensorId.size()==1) {
                     for (int i = 0; i < remainGasVolumnList.size(); i++) {
                         try{
-                            total_volume += remainGasVolumnList.get(i);
                             TimeZone timeZone = TimeZone.getTimeZone("Asia/Taipei");
                             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             dateFormat.setTimeZone(timeZone);
@@ -94,7 +93,7 @@ public class Remain_Gas extends AppCompatActivity {
                             Log.i("sensor Time",sensorTime.get(0));
                             Log.i("timeDifference", String.valueOf(timeDifferenceMinutes));
 //
-//                            // Compare the time difference with 30 minutes
+//                           // Compare the time difference with 30 minutes
                             if (timeDifferenceMinutes <= 30) {
                                 total_volume += remainGasVolumnList.get(i);
                                 Log.i("volume", String.valueOf(total_volume));

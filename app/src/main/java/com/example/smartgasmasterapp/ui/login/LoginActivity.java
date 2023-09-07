@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button register;
     private Button forget;
-    private String email,password;
+    public static String email,password;
     EditText username;
     EditText Password;
     public static int Worker_ID;

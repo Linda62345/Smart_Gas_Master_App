@@ -138,7 +138,7 @@ public class NewGasRegister extends AppCompatActivity {
         confirmNewScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mannuallyEnterGasCode.getText().toString().length()==15) {
+                if(mannuallyEnterGasCode.getText().toString().length()==10) {
                     gasId = mannuallyEnterGasCode.getText().toString();
                     if (!inputGasEmptyWeight.getText().toString().trim().equals("")) {
                         gasWeight = inputGasEmptyWeight.getText().toString();
@@ -263,7 +263,7 @@ public class NewGasRegister extends AppCompatActivity {
             @Override
             public void onQRCodeFound(String _qrCode) {
                 qrCode = _qrCode;
-                if (qrCode.length() == 15) {
+                if (qrCode.length() == 10) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

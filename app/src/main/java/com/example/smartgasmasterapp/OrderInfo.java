@@ -17,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -43,17 +42,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import com.google.gson.Gson;
-
 public class OrderInfo extends AppCompatActivity {
-
     private Button startScan;
     private String order_Id, currentDateTimeString;
     private TextView name, phone, address, ordertime, gas_Quan;
-    public static String Original_Gas_Id;
     public static int gas_quantity;
     public String Customer_Id;
-    String line, result = "";
     String[] quantity, type, weight, Orig_gas_Id;
     ArrayList<orderDetail> orderdetail;
     public ListView Lorderdetail;
@@ -156,52 +150,6 @@ public class OrderInfo extends AppCompatActivity {
             ordertime.setText(OT);
         } catch (Exception e) {
             Log.i("Order Info Exception", e.toString());
-        }
-    }
-
-    public void Original_Gas() {
-        try {
-            String URL = "http://54.199.33.241/test/Customer_Original_Gas.php";
-            URL url = new URL(URL);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setDoInput(true);
-            OutputStream outputStream = httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Customer_Id), "UTF-8");
-            bufferedWriter.write(post_data);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            outputStream.close();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-            String result = "";
-            String line = "";
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-            bufferedReader.close();
-            inputStream.close();
-            httpURLConnection.disconnect();
-            Log.i("result", "[" + result + "]");
-            try {
-                JSONArray ja = new JSONArray(result);
-                JSONObject jo = null;
-
-                Orig_gas_Id = new String[ja.length()];
-
-                for (int i = 0; i < ja.length(); i++) {
-                    jo = ja.getJSONObject(i);
-                    Orig_gas_Id[i] = jo.getString("Gas_Id");
-                    Log.i("Original_Gas", Orig_gas_Id[i]);
-                }
-            } catch (Exception e) {
-                Log.i("OriginalGas JSON Exception", e.toString());
-            }
-        } catch (Exception e) {
-            Log.i("OriginalGas Exception", e.toString());
         }
     }
 
@@ -318,9 +266,6 @@ public class OrderInfo extends AppCompatActivity {
                     // Log the string to the console
                     Log.i("Date", currentDateTimeString);
                     data.put("time",currentDateTimeString);
-
-                    //Log.i("sensor_id json",new Gson().toJson(orderList.sensor_Id_Array));
-                    //data.put("sensorIdArray",new Gson().toJson(orderList.sensor_Id_Array));
 
                     return data;
                 }

@@ -56,9 +56,10 @@ public class Homepage extends AppCompatActivity {
 
         // Retrieve extras from intent
         Intent intent = getIntent();
-        email = intent.getStringExtra("email");
-        password = intent.getStringExtra("password");
-        Worker_ID = intent.getIntExtra("Worker_ID",-1);
+        LoginActivity loginActivity = new LoginActivity();
+        email = loginActivity.email;
+        password = loginActivity.password;
+        Worker_ID = loginActivity.Worker_ID;
         Log.d("Homepage", "Email: " + email + ", Password: " + password + ", Worker ID: " + Worker_ID);
         //scanOrder = findViewById(R.id.open_scanner_button);
 
