@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,7 +40,7 @@ public class EditPersonalInfo extends AppCompatActivity {
     public int Worker_ID;
     public String Worker_Name, Worker_Address, Worker_Email;
     public int Worker_Tel,Worker_Phone;
-    private EditText Name, Address, Email, Tel, Phone;
+    private TextView Name, Address, Email, Tel, Phone;
     private Button save;
     public String worker_name="",phone="",tel="",address="",email="";
     public Homepage homepage;

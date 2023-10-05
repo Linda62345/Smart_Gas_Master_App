@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.smartgasmasterapp.ui.login.LoginActivity;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class NewGasRegister extends AppCompatActivity {
     private ArrayList<String> new_Gas_Id_Array, empty_Weight_Array;
     public Remain_Gas remain_Gas;
     public String sensor_Id;
+    public int Worker_Id;
     //把gas_id 跟 gas + emptyweight 寫進去 iot table
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,9 @@ public class NewGasRegister extends AppCompatActivity {
         //inputs
         changeableNewVolume = findViewById(R.id.changeableOldVolume);
         confirmNewScanButton = findViewById(R.id.confirm_OldScan_button);
+
+        LoginActivity loginActivity = new LoginActivity();
+        Worker_Id = loginActivity.Worker_ID;
 
         //取得唯一的sensor Id
         remain_Gas = new Remain_Gas();
@@ -125,7 +130,6 @@ public class NewGasRegister extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 changeableNewVolume.setText(inputGasEmptyWeight.getText().toString());
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -152,7 +156,7 @@ public class NewGasRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "請輸入瓦斯桶編號", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "請輸入正確十五碼瓦斯桶編號", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "請輸入正確十碼瓦斯桶編號", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -195,6 +199,7 @@ public class NewGasRegister extends AppCompatActivity {
                     data.put("gasId", gasId);
                     data.put("gasWeightEmpty", gasWeight);
                     data.put("sensorId",sensor_Id);
+                    data.put("worker_Id", String.valueOf(Worker_Id));
                     return data;
                 }
             };

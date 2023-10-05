@@ -51,7 +51,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     private String URL = "http://54.199.33.241/test/register.php";
 
 
-
     private String name, email, address, phone, houseTel, password, reenterPassword, gender, company;
     RequestQueue requestQueue;
 

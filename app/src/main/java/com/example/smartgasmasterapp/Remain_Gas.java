@@ -77,6 +77,8 @@ public class Remain_Gas extends AppCompatActivity {
                 if (remainGasVolumnList.size() == 1 && finalSensorId.size()==1) {
                     for (int i = 0; i < remainGasVolumnList.size(); i++) {
                         try{
+                            result = "";
+                            GetData("http://54.199.33.241/test/Show_IOT.php", Customer_Id);
                             TimeZone timeZone = TimeZone.getTimeZone("Asia/Taipei");
                             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             dateFormat.setTimeZone(timeZone);

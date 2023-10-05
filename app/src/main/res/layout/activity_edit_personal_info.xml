@@ -37,13 +37,17 @@
             android:textSize="15.0sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:inputType="text"
             android:minWidth="25dp"
-            android:minHeight="25dp"/>
+            android:minHeight="25dp"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -54,11 +58,16 @@
             android:textSize="15.0sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/editHousePhone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -69,11 +78,15 @@
             android:textSize="15.0sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/editPhoneNo"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -84,13 +97,17 @@
             android:textSize="15.0sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/editCompanyAddress"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:inputType="text"
             android:minWidth="25dp"
-            android:minHeight="25dp" />
+            android:minHeight="25dp"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -101,13 +118,17 @@
             android:textSize="15.0sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:inputType="text"
             android:minWidth="25dp"
-            android:minHeight="25dp" />
+            android:minHeight="25dp"
+            android:textColor="@android:color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
 
     <Button
         android:id="@+id/saveInfo_button"

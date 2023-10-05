@@ -112,10 +112,14 @@ public class ScanOriginalQRCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (input_Id.getText().toString() != null && input_Id.getText().toString() != "") {
+                if (input_Id.getText().toString() != null && !input_Id.getText().toString().trim().equals("")) {
                     Gas_Id_Array.add(input_Id.getText().toString());
+                    sure();
                 }
-                sure();
+                else{
+                    Intent intent = new Intent(ScanOriginalQRCode.this, GasRegister.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -210,7 +214,7 @@ public class ScanOriginalQRCode extends AppCompatActivity {
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             String gas_Id = input_Id.getText().toString().trim();
-            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(gas_Id), "UTF-8");
+            String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(gas_Id, "UTF-8");
             bufferedWriter.write(post_data);
             bufferedWriter.flush();
             bufferedWriter.close();

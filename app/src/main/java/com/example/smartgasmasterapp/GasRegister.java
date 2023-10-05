@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.smartgasmasterapp.ui.login.LoginActivity;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class GasRegister extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private EditText mannuallyEnterGasCode,inputGasEmptyWeight;
     private String qrCode,gasId,gasWeight;
+    public int Worker_Id;
     private String URL = "http://54.199.33.241/test/registGas.php";
     private ArrayList<String> new_Gas_Id_Array, empty_Weight_Array;
 
@@ -87,6 +89,9 @@ public class GasRegister extends AppCompatActivity {
         //inputs
         changeableNewVolume = findViewById(R.id.changeableOldVolume);
         confirmNewScanButton = findViewById(R.id.confirm_OldScan_button);
+
+        LoginActivity loginActivity = new LoginActivity();
+        Worker_Id = loginActivity.Worker_ID;
 
 
         //Gas ID
@@ -147,7 +152,7 @@ public class GasRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "請輸入瓦斯桶編號", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "請輸入正確十五碼瓦斯桶編號", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "請輸入正確十碼瓦斯桶編號", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -164,7 +169,6 @@ public class GasRegister extends AppCompatActivity {
 
     public void saveGas(String URL){
         try {
-            Log.i("TESTTTTTTTT", "test");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -191,6 +195,7 @@ public class GasRegister extends AppCompatActivity {
                     Map<String, String> data = new HashMap<>();
                     data.put("gasId", gasId);
                     data.put("gasWeightEmpty", gasWeight);
+                    data.put("Worker_Id", String.valueOf(Worker_Id));
                     return data;
                 }
             };

@@ -95,46 +95,27 @@ public class ScanNewQRCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveIot();
                 //Save Gas Order資料
                 //saveNewGas();
                 // Finish the current activity to prevent the user from navigating back to it
                 finish();
+                if(input_newGasId.getText().toString().trim().equals("")){
+                    Intent intent = new Intent(ScanNewQRCode.this,NewGasRegister.class);
+                    startActivity(intent);
+                }
+                else{
+                    GasData();
+                }
             }
         });
 
         New_Gas_Id_Array = new ArrayList<String>();
-        next_gas = findViewById(R.id.confirm_NewScan_button);
-        next_gas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                input_newGasId.removeTextChangedListener(textWatcher);
-                input_newGasId.setText("");
-                input_newGasId.addTextChangedListener(textWatcher);
-            }
-        });
-
-        input_newGasId.addTextChangedListener(textWatcher);
-
-        // Call GasData() method once initially
-        GasData();
 
         Remain_Gas remain_gas = new Remain_Gas();
         Customer_Id = remain_gas.Customer_Id;
-
+        sensor_Id = remain_gas.finalSensorId.get(0);
         //scanner
         next.setVisibility(View.VISIBLE);
-
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                saveIOT();
-//                // enterNewIot.setText(""); // Clear the EditText
-////                enterNewIot.setText(qrCode);
-////                Toast.makeText(getApplicationContext(), qrCode, Toast.LENGTH_SHORT).show();
-////                Log.i(ScanReceiptQRCode.class.getSimpleName(), "QR Code Found: " + qrCode);
-//            }
-//        });
 
         //ShowDataDetail();
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -200,6 +181,7 @@ public class ScanNewQRCode extends AppCompatActivity {
                     Toast.makeText(this, "此瓦斯桶尚未註冊", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ScanNewQRCode.this,NewGasRegister.class);
                     startActivity(intent);
+
                 } else {
                     String S_Gas_ID, S_initial_volume, S_Gas_Type;
                     S_Gas_ID = responseJSON.getString("GAS_Id");
@@ -210,8 +192,8 @@ public class ScanNewQRCode extends AppCompatActivity {
                     GAS_Type.setText(S_Gas_Type);
                     Gas_Weight_Empty = responseJSON.getString("GAS_Weight_Empty");
                     Log.i("gas_weight",Gas_Weight_Empty);
-
-
+                    // 更新iot資訊: 空桶重6
+                    saveIot();
                     if (input_newGasId.getText().toString() != null && input_newGasId.getText().toString() != "") {
                         New_Gas_Id_Array.add(input_newGasId.getText().toString());
                     }
@@ -249,6 +231,7 @@ public class ScanNewQRCode extends AppCompatActivity {
                     data.put("gasId", gas_Id1);
                     data.put("gasWeightEmpty", Gas_Weight_Empty);
                     data.put("sensorId",sensor_Id);
+
                     return data;
                 }
             };

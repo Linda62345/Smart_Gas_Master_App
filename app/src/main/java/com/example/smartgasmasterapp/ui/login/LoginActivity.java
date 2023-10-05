@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String email,password;
     EditText username;
     EditText Password;
-    public static int Worker_ID;
+    public static int Worker_ID,Worker_Company_ID;
 
 
     @Override
@@ -320,6 +320,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("result", "["+result+"]");
                 JSONObject responseJSON = new JSONObject(result);
                 Worker_ID = responseJSON.getInt("Worker_Id");
+//                Worker_Company_ID = responseJSON.getInt("Worker_Company_Id");
+//                Log.i("Worker_Company_ID",String.valueOf(Worker_Company_ID));
                 if (callback != null) {
                     callback.onWorkerIdRetrieved(Worker_ID);
                 }
